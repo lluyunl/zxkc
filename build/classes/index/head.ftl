@@ -5,7 +5,7 @@
 <title>登录</title>
 <#include "/commons/ext.ftl"/>
 <script type="text/javascript">
-
+//testing...
 </script>
 </head>
 <body>
