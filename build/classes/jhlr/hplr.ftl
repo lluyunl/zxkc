@@ -5,38 +5,133 @@
 <#include "/commons/ext.ftl"/>
 <script type="text/javascript">
 	Ext.onReady(function() {
+
+	var addForm = new Ext.form.FormPanel({
+		url: '${ctxPath}/jhlr/hplr_addHp.shtml',
+		labelAlign: 'right',
+		labelWidth: 200,
+		width: 800,
+		height: 150,
+		frame: true,
+		layout: 'form',
+		buttonAlign: 'center',
+		items: [{
+			layout: 'column',
+			border: false,
+			style: 'padding-top:5px',
+			items: [
+				{	
+					columnWidth: 0.3,
+					labelWidth: 80,
+					labelAlign: 'right',
+					layout: 'form',
+					border: false,
+					items: [
+						{
+							xtype: 'textfield',
+							name: 'hpmc',
+							id: 'hpmc',
+							allowBlank: false,
+							fieldLabel: '货品名称'
+						}, {
+							xtype: 'textfield',
+							allowBlank: false,
+							id: 'zxdw',
+							name: 'zxdw',
+							fieldLabel: '最小单位'
+						}
+					]
+				}, {	
+					columnWidth: 0.3,
+					labelWidth: 80,
+					labelAlign: 'right',
+					layout: 'form',
+					border: false,
+					items: [
+						{
+							xtype: 'textfield',
+							name: 'dw',
+							id: 'dw',
+							allowBlank: false,
+							fieldLabel: '单位'
+						}
+					]
+				},{	
+					columnWidth: 0.3,
+					labelWidth: 80,
+					labelAlign: 'right',
+					layout: 'form',
+					border: false,
+					items: [
+						{
+							xtype: 'textfield',
+							name: 'bzgg',
+							id: 'bzgg',
+							allowBlank: false,
+							fieldLabel: '包装规格'
+						}
+					]
+				}
+			],
+			buttonAlign: 'center',
+			buttons: [
+                {
+                	text: '取消',
+                	handler: function() {
+                		addWindow.hide();
+                	}
+                },
+                {
+                	text: '确定',
+                	handler: function() {
+                		Ext.Msg.confirm("系统提示", "确认保存？", function(opt) {
+                            if (opt == "yes" && fnCheckBlank()) {
+                                addForm.getForm().submit({
+                                        success: function() {
+                                                Ext.Msg.alert("系统提示", "保存成功！");
+                                        },
+                                        failure: function() {
+                                                Ext.Msg.alert("系统提示", "保存失败，请联系系统管理员！");
+                                        }
+                                });
+                            }
+                		});
+                	}
+                }
+			]
+		}]
+	});
 	
-		//var store = new Ext.data.Store({
-		//	proxy: new Ext.data.HttpProxy({url: '${ctxPath}/jhlr/hplr_loadHpSelect.shtml'}),
-		//	reader: new Ext.data.ArrayReader({}, [
-		//		{name: 'value'},
-		//		{name: 'text'}
-		//	])
-		//});
+	function fnCheckBlank() {
+		if (!Ext.getCmp("hpmc").validate()) {
+			Ext.Msg.alert("系统提示", "货品名称不能为空！");
+			return false;
+		}
+		if (!Ext.getCmp("dw").validate()) {
+			Ext.Msg.alert("系统提示", "单位不能为空！");
+			return false;
+		}
+		if (!Ext.getCmp("bzgg").validate()) {
+			Ext.Msg.alert("系统提示", "包装规格不能为空！");
+			return false;
+		}
+		if (!Ext.getCmp("zxdw").validate()) {
+			Ext.Msg.alert("系统提示", "最小单位不能为空！");
+			return false;
+		}
+		return true;
+	}
+
+    var addWindow = new Ext.Window({
+            title: '新增货品',
+            width: 800,
+            height: 150,
+            modal: true,
+            closeAction: 'hide',
+            layout: 'form',
+            items: [addForm]
+    });
 	
-		//var form = new Ext.form.FormPanel({
-		//	renderTo: 'queryCrt',
-		//	labelAlign: 'right',
-		//	labelWidth: 200,
-		//	width: 1000,
-		//	frame: true,
-		//	layout: 'column',
-		//	items: [{
-		//		columnWidth: .8,
-		//		items: [{
-		//			xtype: 'combo',
-		//			name: 'hpbh',
-		//			fieldLabel: '货品',
-		//			emptyText: '请选择',
-		//			store: store,
-		//			mode: 'remote',
-		//			valueField: 'value',
-		//			displayField: 'text'
-		//		}]
-		//	}]
-		//});	
-		
-		
 		var gridStore = new Ext.data.JsonStore({
 			url: '${ctxPath}/jhlr/hplr_listHpxx.shtml',
 			root: 'hpxxList',
@@ -69,74 +164,6 @@
 				{
 					text: '新增',
 					handler: function() {
-						var addWindow = new Ext.Window({
-							title: '新增货品',
-							width: 800,
-							height: 150,
-							modal: true,
-							closeAction: 'hide',
-							layout: 'form',
-							items: [{
-								layout: 'column',
-								border: false,
-								style: 'padding-top:5px',
-								items: [
-									{	
-										columnWidth: 0.3,
-										labelWidth: 80,
-										labelAlign: 'right',
-										layout: 'form',
-										border: false,
-										items: [
-											{
-												xtype: 'textfield',
-												name: 'hpbh',
-												fieldLabel: '货品编号'
-											}, {
-												xtype: 'textfield',
-												name: 'bzgg',
-												fieldLabel: '包装规格'
-											}
-										]
-									}, {	
-										columnWidth: 0.3,
-										labelWidth: 80,
-										labelAlign: 'right',
-										layout: 'form',
-										border: false,
-										items: [
-											{
-												xtype: 'textfield',
-												name: 'hpmc',
-												fieldLabel: '货品名称'
-											}, {
-												xtype: 'textfield',
-												name: 'zxdw',
-												fieldLabel: '最小单位'
-											}
-										]
-									},{	
-										columnWidth: 0.3,
-										labelWidth: 80,
-										labelAlign: 'right',
-										layout: 'form',
-										border: false,
-										items: [
-											{
-												xtype: 'textfield',
-												name: 'dw',
-												fieldLabel: '单位'
-											}
-										]
-									}
-								],
-								buttonAlign: 'center',
-								buttons: [
-                                    {text: '取消'},
-                                    {text: '确定'}
-								]
-							}]
-						});
 						addWindow.show();
 					}
 				},
@@ -161,6 +188,7 @@
 </script>
 </head>
 <body>
+<div id="queryCrt"></div>
 <div id="hpxxList"></div>
 </body>
 </html>

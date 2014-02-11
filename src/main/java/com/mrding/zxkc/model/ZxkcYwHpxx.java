@@ -19,8 +19,14 @@ public class ZxkcYwHpxx {
     private Timestamp ts;
     private String lrr;
     private String xgr;
-    private String xgsj;
+    private Timestamp xgsj;
 
+    public Timestamp getXgsj() {
+        return xgsj;
+    }
+    public void setXgsj(Timestamp xgsj) {
+        this.xgsj = xgsj;
+    }
     public String getUkey() {
         return ukey;
     }
@@ -80,12 +86,6 @@ public class ZxkcYwHpxx {
     }
     public void setXgr(String xgr) {
         this.xgr = xgr;
-    }
-    public String getXgsj() {
-        return xgsj;
-    }
-    public void setXgsj(String xgsj) {
-        this.xgsj = xgsj;
     }
 
 }
