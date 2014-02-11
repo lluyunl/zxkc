@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+    "http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+
+	<constant name="struts.action.extension" value="shtml" /> 	
+	<include file="../config/framework.xml"></include>
+
+	<package name="system" extends="json-default">
+		<action name="login" class="com.mrding.zxkc.web.LoginAction">
+			<result type="json">
+				<param name="root">jsonMap</param>
+			</result>
+			<result type="freemarker" name="login">/login/login.ftl</result>
+			<result type="freemarker" name="index">/index/index.ftl</result>
+		</action>
+
+		<action name="index_*" method="{1}" class="com.mrding.zxkc.web.IndexAction">
+			<result type="json">
+				<param name="root">jsonMap</param>
+				<param name="root">jsonList</param>
+			</result>
+			<result type="freemarker" name="index">/index/index.ftl</result>
+			<result type="freemarker" name="head">/index/head.ftl</result>
+			<result type="freemarker" name="menu">/index/menu.ftl</result>
+			<result type="freemarker" name="home">/index/home.ftl</result>
+		</action>
+	</package> 
+</struts>
