@@ -1,9 +1,11 @@
 package com.mrding.zxkc.server.jhlr;
 
+import java.sql.SQLException;
 import java.util.*;
 
 import com.mrding.zxkc.dao.jhlr.ZxkcHplrDao;
 import com.mrding.zxkc.model.ZxkcYwHpxx;
+import com.mrding.zxkc.vo.jhlr.ZxkcHplrVo.ZxkcHplrVo;
 
 public class ZxkcHplrManager {
     
@@ -15,6 +17,24 @@ public class ZxkcHplrManager {
      */
     public List<ZxkcYwHpxx> listHpxx() {
 	return dao.listHpxx();
+    }
+
+    /**
+     * 添加货品
+     * @param model
+     * @throws SQLException 
+     */
+    public void addHp(ZxkcHplrVo model) throws SQLException {
+	dao.save(model);
+    }
+
+    /**
+     * 删除货品
+     * @param ukey
+     * @throws SQLException 
+     */
+    public void deleteHp(String ukey) throws SQLException {
+	dao.deleteByPk(ukey);
     }
 
 }

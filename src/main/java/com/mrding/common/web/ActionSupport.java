@@ -3,9 +3,18 @@ package com.mrding.common.web;
 import java.lang.reflect.*;
 import java.util.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.struts2.interceptor.ServletRequestAware;
+import org.apache.struts2.interceptor.ServletResponseAware;
+
 import com.opensymphony.xwork2.ModelDriven;
 
-public class ActionSupport<V, M> implements ModelDriven<V> {
+public class ActionSupport<V, M> implements ModelDriven<V>, ServletRequestAware, ServletResponseAware {
+    
+    protected HttpServletRequest request;
+    protected HttpServletResponse response;
     
     protected M manager = getManagerInstance();
     protected V model = getVoInstance();
@@ -22,7 +31,7 @@ public class ActionSupport<V, M> implements ModelDriven<V> {
 
     @Override
     public V getModel() {
-	return null;
+	return model;
     }
 
     private V getVoInstance() {
@@ -45,6 +54,16 @@ public class ActionSupport<V, M> implements ModelDriven<V> {
 	Type sType = getClass().getGenericSuperclass();
         Type[] generics = ((ParameterizedType) sType).getActualTypeArguments();
 	return generics;
+    }
+
+    @Override
+    public void setServletResponse(HttpServletResponse response) {
+	this.response = response;
+    }
+
+    @Override
+    public void setServletRequest(HttpServletRequest request) {
+	this.request = request;
     }
     
     

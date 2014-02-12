@@ -10,7 +10,7 @@ import java.sql.*;
 public class ZxkcYwHpxx {
     
     private String ukey;
-    private String hpbh;
+    private int hpbh;
     private String hpmc;
     private String bzgg;
     private String dw;
@@ -33,14 +33,14 @@ public class ZxkcYwHpxx {
     public void setUkey(String ukey) {
         this.ukey = ukey;
     }
-    public String getHpbh() {
-        return hpbh;
-    }
-    public void setHpbh(String hpbh) {
-        this.hpbh = hpbh;
-    }
     public String getHpmc() {
         return hpmc;
+    }
+    public int getHpbh() {
+        return hpbh;
+    }
+    public void setHpbh(int hpbh) {
+        this.hpbh = hpbh;
     }
     public void setHpmc(String hpmc) {
         this.hpmc = hpmc;
