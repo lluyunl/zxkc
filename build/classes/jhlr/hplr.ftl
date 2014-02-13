@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <#include "/commons/ext.ftl"/>
+<#include "/commons/commonJs.ftl"/>
 <script type="text/javascript">
 	Ext.onReady(function() {
 	var addForm = new Ext.form.FormPanel({
@@ -30,14 +31,12 @@
 							xtype: 'textfield',
 							name: 'hpmc',
 							id: 'hpmc',
-							allowBlank: false,
-							fieldLabel: '货品名称'
+							fieldLabel: "<font color='red'>*</font>货品名称"
 						}, {
 							xtype: 'textfield',
-							allowBlank: false,
 							id: 'zxdw',
 							name: 'zxdw',
-							fieldLabel: '最小单位'
+							fieldLabel: "<font color='red'>*</font>最小单位"
 						}
 					]
 				}, {	
@@ -51,8 +50,7 @@
 							xtype: 'textfield',
 							name: 'dw',
 							id: 'dw',
-							allowBlank: false,
-							fieldLabel: '单位'
+							fieldLabel: "<font color='red'>*</font>单位"
 						}
 					]
 				},{	
@@ -66,20 +64,13 @@
 							xtype: 'textfield',
 							name: 'bzgg',
 							id: 'bzgg',
-							allowBlank: false,
-							fieldLabel: '包装规格'
+							fieldLabel: "<font color='red'>*</font>包装规格"
 						}
 					]
 				}
 			],
 			buttonAlign: 'center',
 			buttons: [
-                {
-                	text: '取消',
-                	handler: function() {
-                		addWindow.hide();
-                	}
-                },
                 {
                 	text: '确定',
                 	handler: function() {
@@ -99,6 +90,13 @@
                             }
                 		});
                 	}
+                },
+                {
+                	text: '取消',
+                	handler: function() {
+                		fnInitAddWindow();
+                		addWindow.hide();
+                	}
                 }
 			]
 		}, new Ext.form.Hidden({id:'ukey', name:'ukey'})]
@@ -113,19 +111,19 @@
 	}
 	
 	function fnCheckBlank() {
-		if (!Ext.getCmp("hpmc").validate()) {
+		if (fnIsBlank(Ext.getCmp("hpmc").getValue())) {
 			Ext.Msg.alert("系统提示", "货品名称不能为空！");
 			return false;
 		}
-		if (!Ext.getCmp("dw").validate()) {
+		if (fnIsBlank(Ext.getCmp("dw").getValue())) {
 			Ext.Msg.alert("系统提示", "单位不能为空！");
 			return false;
 		}
-		if (!Ext.getCmp("bzgg").validate()) {
+		if (fnIsBlank(Ext.getCmp("bzgg").getValue())) {
 			Ext.Msg.alert("系统提示", "包装规格不能为空！");
 			return false;
 		}
-		if (!Ext.getCmp("zxdw").validate()) {
+		if (fnIsBlank(Ext.getCmp("zxdw").getValue())) {
 			Ext.Msg.alert("系统提示", "最小单位不能为空！");
 			return false;
 		}
@@ -191,7 +189,7 @@
 						Ext.getCmp("dw").setValue(hpxxBean.get("dw"));
 						Ext.getCmp("bzgg").setValue(hpxxBean.get("bzgg"));
 						Ext.getCmp("zxdw").setValue(hpxxBean.get("zxdw"));
-						Ext.getCmp("ukey").setValue(hpxxBean.get("zxdw"));
+						Ext.getCmp("ukey").setValue(hpxxBean.get("ukey"));
 						addWindow.setTitle("修改货品");
 						addWindow.show();
 					}
