@@ -4,6 +4,7 @@ import java.util.*;
 
 import javax.servlet.ServletContext;
 
+import com.mrding.common.CommonUtils;
 import com.mrding.common.web.ActionSupport;
 import com.mrding.zxkc.manager.ManagerFactory;
 import com.mrding.zxkc.server.jhlr.ZxkcHplrManager;
@@ -22,6 +23,9 @@ public class ZxkcHplrAction extends ActionSupport<ZxkcHplrVo, ZxkcHplrManager>{
      * @return
      */
     public String listHpxx() {
+	if (CommonUtils.strIsNotBlank(model.getHpmc())) {
+	    return queryHpxxByMc();
+	}
 	jsonMap.put("hpxxList", manager.listHpxx());
 	return "success";
     }
@@ -54,6 +58,12 @@ public class ZxkcHplrAction extends ActionSupport<ZxkcHplrVo, ZxkcHplrManager>{
 	    jsonMap.put("success", false);
 	}
 	return "success";
+    }
+    
+    public String queryHpxxByMc() {
+	jsonMap.put("hpxxList", manager.queryHpxxByMc(model.getHpmc()));
+	jsonMap.put("success", true);
+	return SUCCESS;
     }
     
     
