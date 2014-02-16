@@ -58,14 +58,17 @@ public class IndexAction implements ModelDriven<IndexVo> {
 	List<TreeNode> rtnList = new ArrayList<TreeNode>();
 	if (CommonUtils.strIsNotBlank(id)) {
 	    if (id.equals("root")) {
-		rtnList.add(TreeNode.createNotLeaf("入库录入", "rklr"));
-		rtnList.add(TreeNode.createLeaf("出库录入", "cklr", "/cklr_list.shtml"));
+		rtnList.add(TreeNode.createNotLeaf("入库", "rklr"));
+		rtnList.add(TreeNode.createNotLeaf("出库", "ck"));
+		//rtnList.add(TreeNode.createLeaf("出库", "cklr", "/ck/cklr_list.shtml"));
 		rtnList.add(TreeNode.createNotLeaf("查询统计", "cxtj"));
 	    } else if (id.equals("rklr")) {
-		rtnList.add(TreeNode.createLeaf("菜品录入", "cplr", "/jhlr/hplr_list.shtml"));
+		rtnList.add(TreeNode.createLeaf("货品信息维护", "cplr", "/jhlr/hplr_list.shtml"));
 		rtnList.add(TreeNode.createLeaf("货品入库", "hprk", "/jhlr/hprk_list.shtml"));
+	    } else if (id.equals("ck")) {
+		rtnList.add(TreeNode.createLeaf("货品出库", "cklr", "/ck/cklr_list.shtml"));
 	    } else if (id.equals("cxtj")) {
-		rtnList.add(TreeNode.createLeaf("库存查询", "kccx", "/kccx_list.shtml"));
+		rtnList.add(TreeNode.createLeaf("库存查询", "kccx", "/cxtj/kccx_list.shtml"));
 		rtnList.add(TreeNode.createLeaf("销售统计", "xstj", "/xstj_list.shtml"));
 		rtnList.add(TreeNode.createLeaf("库存提醒", "kctx", "/kctx_list.shtml"));
 	    }

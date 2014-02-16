@@ -4,5 +4,5 @@ function fnIsBlank(sValue) {
 };
 
 function fnTrim(sValue) {
-	return sValue.replace(/(^\s*)|(\s*$)/g, "");
+    return sValue.replace(/(^\s*)|(\s*$)/g, "");
 }

@@ -2,6 +2,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<title>在线库存管理系统</title>
 <#include "/commons/ext.ftl"/>
 <script type="text/javascript">
 

@@ -13,6 +13,31 @@
 			</result>
 			<result name="hplr" type="freemarker">/jhlr/hplr.ftl</result>
 		</action>
+		<action name="hprk_*" method="{1}" class="com.mrding.zxkc.web.jhlr.ZxkcHprkAction">
+			<result type="json">
+				<param name="root">jsonList</param>
+				<param name="root">jsonMap</param>
+			</result>
+			<result name="list" type="freemarker">/jhlr/hprk/list.ftl</result>
+		</action>
+	</package>
+	<package name="ck" extends="json-default" namespace="/ck">
+		<action name="cklr_*" method="{1}" class="com.mrding.zxkc.web.ck.ZxkcCklrAction">
+			<result type="json">
+				<param name="root">jsonList</param>
+				<param name="root">jsonMap</param>
+			</result>
+			<result name="cklr" type="freemarker">/ck/cklr.ftl</result>
+		</action>
+	</package>
+	<package name="cxtj" extends="json-default" namespace="/cxtj">
+		<action name="kccx_*" method="{1}" class="com.mrding.zxkc.web.cxtj.ZxkcCzcxAction">
+			<result type="json">
+				<param name="root">jsonList</param>
+				<param name="root">jsonMap</param>
+			</result>
+			<result name="kccx" type="freemarker">/cxtj/kccx.ftl</result>
+		</action>
 	</package>
 
 </struts>

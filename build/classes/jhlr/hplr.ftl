@@ -74,8 +74,11 @@
                 {
                 	text: '确定',
                 	handler: function() {
+                		if (!fnCheckBlank()) {
+                			return ;
+                		}
                 		Ext.Msg.confirm("系统提示", "确认保存？", function(opt) {
-                            if (opt == "yes" && fnCheckBlank()) {
+                            if (opt == "yes") {
                                 addForm.getForm().submit({
                                     success: function() {
                                         addWindow.hide();   
@@ -161,14 +164,14 @@
 				{header: '最小单位', dataIndex: 'zxdw', width: 80},
 				{header: '录入时间', dataIndex: 'ts', width: 300, renderer: new Ext.util.Format.dateRenderer('Y-m-d H:m:s'), sortable: true},
 			],
-			viewConfit: {
+			viewConfig: {
 				forceFit: true
 			},
 			width: 1000,
-			height: 300,
+			height: 500,
 			frame: true,
 			tbar: new Ext.Toolbar([
-				'-',
+				 '-',
 				{
 					text: '新增',
 					handler: function() {
@@ -222,7 +225,29 @@
 						})
 					}
 				},
-				'-'
+				'-', '->',
+				"货品名称：", 
+				{
+					xtype:"textfield",
+					id: "hpmc_query",
+					name:"hpmc_query"
+				},
+				 '-', {
+				 	text: '查询',
+				 	handler: function() {
+				 		var hpmc = Ext.get("hpmc_query").getValue();
+				 		Ext.Ajax.request({
+				 			url: '${ctxPath}/jhlr/hplr_queryHpxxByMc.shtml',
+				 			params: {hpmc: hpmc},
+				 			success: function(response) {
+				 				hpxxGrid.getStore().load({params:{hpmc:hpmc}});
+				 				//var data = Ext.decode(response.responseText);
+				 				//alert(data.hpxxList);
+				 				//hpxxGrid.getStore().loadData(data.hpxxList, false);
+				 			}
+				 		});
+				 	}
+				 }, '-',
 			])
 		});
 	});

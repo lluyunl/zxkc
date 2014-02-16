@@ -120,4 +120,25 @@ public class ZxkcHplrDao {
 	DaoUtils.updateBySql(sql, DSFactory.CURRENT);
     }
 
+    /**
+     * 根据货品名称模糊查询
+     * @param hpmc
+     * @return
+     */
+    public List<ZxkcYwHpxx> queryHpxxByMc(String hpmc) {
+	List<Object[]> list = DaoUtils.queryBySql("select * from zxkc_yw_hpxx where DR=0 and HPMC like '%" + hpmc + "%'", DSFactory.CURRENT);
+	return convertList(list);
+    }
+
+    /**
+     * 根据字段值来查询
+     * @param string
+     * @param object
+     * @return
+     */
+    public List<ZxkcYwHpxx> queryByCol(String colName, Object value) {
+	String sql = "select * from zxkc_yw_hpxx where DR=0 and " + colName + " = '" + value + "'";
+	return convertList(DaoUtils.queryBySql(sql, DSFactory.CURRENT));
+    }
+
 }

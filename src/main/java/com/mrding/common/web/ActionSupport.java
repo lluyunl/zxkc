@@ -9,9 +9,17 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts2.interceptor.ServletRequestAware;
 import org.apache.struts2.interceptor.ServletResponseAware;
 
+import com.opensymphony.xwork2.Action;
 import com.opensymphony.xwork2.ModelDriven;
 
-public class ActionSupport<V, M> implements ModelDriven<V>, ServletRequestAware, ServletResponseAware {
+/**
+ * action支持类
+ * @author mrding
+ *
+ * @param <V>
+ * @param <M>
+ */
+public class ActionSupport<V, M> implements ModelDriven<V>, ServletRequestAware, ServletResponseAware, Action {
     
     protected HttpServletRequest request;
     protected HttpServletResponse response;
@@ -64,6 +72,11 @@ public class ActionSupport<V, M> implements ModelDriven<V>, ServletRequestAware,
     @Override
     public void setServletRequest(HttpServletRequest request) {
 	this.request = request;
+    }
+
+    @Override
+    public String execute() throws Exception {
+	return SUCCESS;
     }
     
     
