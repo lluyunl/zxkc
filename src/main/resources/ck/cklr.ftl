@@ -7,7 +7,6 @@
 <script type="text/javascript">
 	
 	Ext.onReady(function() {
-	//test branch...
 
 		var hpbhSelectStore = new Ext.data.JsonStore({
 			url:"${ctxPath}/jhlr/hprk_loadHpbhSelect.shtml",
