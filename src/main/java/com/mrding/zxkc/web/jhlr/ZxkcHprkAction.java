@@ -17,7 +17,7 @@ import com.mrding.zxkc.server.jhlr.ZxkcHprkManager;
 public class ZxkcHprkAction extends ActionSupport<ZxkcYwHprk, ZxkcHprkManager> {
     
     public String list() {
-	return "list";
+        return "list";
     }
     
     /**

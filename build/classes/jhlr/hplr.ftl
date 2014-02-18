@@ -10,7 +10,6 @@
 		url: '${ctxPath}/jhlr/hplr_addHp.shtml',
 		labelAlign: 'right',
 		labelWidth: 200,
-		width: 800,
 		height: 150,
 		frame: true,
 		layout: 'form',
@@ -134,7 +133,7 @@
 	}
 
     var addWindow = new Ext.Window({
-        width: 800,
+        width: 900,
         height: 150,
         modal: true,
         closeAction: 'hide',
