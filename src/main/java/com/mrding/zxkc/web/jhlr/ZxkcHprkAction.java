@@ -25,20 +25,31 @@ public class ZxkcHprkAction extends ActionSupport<ZxkcYwHprk, ZxkcHprkManager> {
      * @return
      */
     public String loadHpbhSelect() {
-	jsonMap.put("hpbhSelect", manager.listHpbhSelect());
-	jsonMap.put("success", true);
-	return SUCCESS;
+        jsonMap.put("hpbhSelect", manager.listHpbhSelect());
+        jsonMap.put("success", true);
+        return SUCCESS;
     }
     
     public String saveHprkList() {
-	try {
+        try {
             String dataJson = URLDecoder.decode(request.getParameter("data"), "utf-8");
             manager.saveHprkByJsonStr(dataJson);
             jsonMap.put("success", true);
-	} catch(Exception e) {
+        } catch(Exception e) {
+            e.printStackTrace();
             jsonMap.put("success", false);
-	}
+        }
         return SUCCESS;
     }
+    
+    public String loadCkSelect() {
+    	jsonMap.put("ckSelect", manager.listCkSelect());
+    	return SUCCESS;
+    }
+    
+    public String funcRkwh() {
+    	return "rkwh";
+    }
+
 
 }

@@ -8,17 +8,6 @@
 	
 	Ext.onReady(function() {
 
-		var hpbhSelectStore = new Ext.data.JsonStore({
-			url:"${ctxPath}/jhlr/hprk_loadHpbhSelect.shtml",
-			root:"hpbhSelect",
-			fields:["hpbh", "hpmc"]
-		});
-		hpbhSelectStore.load();
-
-		var hpbhSelect = new Ext.form.ComboBox({
-			store:hpbhSelectStore, emptyText:"请选择", mode:"local", valueField:"hpbh", displayField:"hpmc", allowBlank:false
-		}); 	
-		
 		Ext.util.Format.comboRenderer = function(combo) {
 			return function(value) {
 				var record = combo.findRecord(combo.valueField, value);
@@ -36,6 +25,7 @@
 			store:dwSelectStore, emptyText:"请选择", mode:"local", valueField:"dwlx", displayField:"dwlxmc", allowBlank:false
 		});
 
+
 		var hprkCm = new Ext.grid.ColumnModel([
 			{header:"货品名称", dataIndex:"hpbh", width:70, editor:hpbhSelect, renderer:Ext.util.Format.comboRenderer(hpbhSelect)},
 			{header:"供货商名称", dataIndex:"ghsmc", width:150, editor:new Ext.form.TextField({allowBlank:false})},
@@ -43,12 +33,13 @@
 			{header:"送货人电话", dataIndex:"shrdh", editor:new Ext.form.TextField({})},
 			{header:"货品数量", dataIndex:"hpsl", editor:new Ext.form.NumberField({allowBlank:false, precision:2})},
 			{header:"单位类型", dataIndex:"dw", editor:dwSelect, renderer:Ext.util.Format.comboRenderer(dwSelect)},
+			{header:"仓库", dataIndex:"ck", editor:ckSelect, renderer:Ext.util.Format.comboRenderer(ckSelect)},
 			{header:"入库人", dataIndex:"rkr", editor:new Ext.form.TextField({allowBlank:false})},
 			{header:"入库时间", dataIndex:"rksj", sortable:true, editor:new Ext.form.DateField({allowBlank:false, format:"Y-m-d"}), renderer:new Ext.util.Format.dateRenderer('Y-m-d')},
 			{header:"备注", dataIndex:"bz", editor:new Ext.form.TextField({})}
 		]);
 		
-		var colArray = [{name:"hpbh"}, {name:"ghsmc"}, {name:"shr"}, {name:"shrdh"}, {name:"hpsl"}, {name:"dw"}, {name:"rkr"}, {name:"rksj"}, {name:"bz"}];
+		var colArray = [{name:"hpbh"}, {name:"ghsmc"}, {name:"shr"}, {name:"shrdh"}, {name:"hpsl"}, {name:"dw"}, {name:"ck"}, {name:"rkr"}, {name:"rksj"}, {name:"bz"}];
 		
 		var HprkRecord = Ext.data.Record.create(colArray);
 		
@@ -65,7 +56,7 @@
             tbar:new Ext.Toolbar(["-", {
                 text:"添加一行", 
                 handler:function(){
-                	var row = new HprkRecord({ hpbh:"", ghsmc:"", shr:"", shrdh:"", hpsl:"", dwlx:"", rkr:"", rksj:""});
+                	var row = new HprkRecord({ hpbh:"", ghsmc:"", shr:"", shrdh:"", hpsl:"", ck:"", dwlx:"", rkr:"", rksj:""});
                 	hprkList.stopEditing();
                 	hprkList.getStore().insert(0, row);
                 	hprkList.startEditing(0, 0);
@@ -87,12 +78,17 @@
             }, "-", "->", "-", {
             	text:"保存",
             	handler: function() {
+            		var flag = true;
             		var hprkListStore = hprkList.getStore();
 					hprkListStore.each(function(item) {
 						if (!fnCheckHprkRecord(item)) {
+							flag = false;
 							return ;
 						}
 					});
+					if (!flag) {
+						return ;
+					}
 					var dataArray = [];
 					hprkListStore.each(function(item) {
 						dataArray.push(item.data);
@@ -101,20 +97,18 @@
                         Ext.Msg.alert("系统提示", "请先录入入库信息！");
                         return ;
 					}
-					Ext.Msg.alert("系统提示", "保存成功！");
-					hprkList.getStore().removeAll();
-					//Ext.Ajax.request({url:"${ctxPath}/jhlr/hprk_saveHprkList.shtml",
-					//	params:{data:encodeURIComponent(Ext.encode(dataArray))},
-					//	success:function(response) {
-					//		var data = Ext.decode(response.responseText);
-					//		if (data.success) {
-					//			Ext.Msg.alert("系统提示", "保存成功！");
-					//			hprkList.getStore().removeAll();
-					//		} else {
-					//			Ext.Msg.alert("系统提示", "保存失败！");
-					//		}
-					//	}
-					//});
+					Ext.Ajax.request({url:"${ctxPath}/jhlr/hprk_saveHprkList.shtml",
+						params:{data:encodeURIComponent(Ext.encode(dataArray))},
+						success:function(response) {
+							var data = Ext.decode(response.responseText);
+							if (data.success) {
+								Ext.Msg.alert("系统提示", "保存成功！");
+								hprkList.getStore().removeAll();
+							} else {
+								Ext.Msg.alert("系统提示", "保存失败！");
+							}
+						}
+					});
             	}
             }, "-"])
         });
@@ -152,7 +146,6 @@
 </script>
 </head>
 <body>
-<div id="testCombo"></div>
 <div id="hprkList"></div>
 </body>
 </html>

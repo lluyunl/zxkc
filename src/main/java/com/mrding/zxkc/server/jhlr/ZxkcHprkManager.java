@@ -8,7 +8,9 @@ import java.util.Map;
 
 import net.sf.json.JSONArray;
 
+import com.mrding.common.CommonUtils;
 import com.mrding.zxkc.dao.jhlr.ZxkcHprkDao;
+import com.mrding.zxkc.dm.CkDmBean;
 import com.mrding.zxkc.model.ZxkcYwHprk;
 import com.mrding.zxkc.model.ZxkcYwHpxx;
 import com.mrding.zxkc.vo.jhlr.ZxkcYwHprkVo;
@@ -22,7 +24,7 @@ public class ZxkcHprkManager {
      * @return
      */
     public List<Map<String, Object>> listHpbhSelect() {
-	return dao.listHpbh();
+        return dao.listHpbh();
     }
 
     /**
@@ -32,8 +34,16 @@ public class ZxkcHprkManager {
      * @throws SQLException 
      */
     public void saveHprkByJsonStr(String dataJson) throws SQLException, ParseException {
-	JSONArray jsonArray = JSONArray.fromObject(dataJson);
-	dao.saveListByJSONArray(jsonArray);
+        JSONArray jsonArray = JSONArray.fromObject(dataJson);
+        dao.saveListByJSONArray(jsonArray);
     }
+
+    /**
+     * 查询仓库下拉单
+     * @return
+     */
+	public List<Map<String, String>> listCkSelect() {
+		return CkDmBean.instance().listSelect();
+	}
 
 }

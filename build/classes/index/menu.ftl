@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <title>登录</title>
 <#include "/commons/ext.ftl"/>
+<#include "/commons/commonJs.ftl"/>
 <script type="text/javascript">
 
 Ext.onReady(function() {

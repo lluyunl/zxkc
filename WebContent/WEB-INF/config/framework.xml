@@ -19,6 +19,7 @@
 				<param name="root">jsonMap</param>
 			</result>
 			<result name="list" type="freemarker">/jhlr/hprk/list.ftl</result>
+			<result name="rkwh" type="freemarker">/jhlr/hprk/rkwh.ftl</result>
 		</action>
 	</package>
 	<package name="ck" extends="json-default" namespace="/ck">

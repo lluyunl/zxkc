@@ -1,6 +1,9 @@
 package com.mrding.common;
 
 import java.util.*;
+import java.util.Map.Entry;
+
+import com.mrding.zxkc.dm.CkDmBean;
 
 /**
  * 静态方法工具
@@ -44,6 +47,44 @@ public class CommonUtils {
 		}
 	    }
 	    return rtnList;
+	}
+
+	public static List<Map<String, String>> createSelect(String key, String value) {
+		List<Map<String, String>> rtnList = new ArrayList<Map<String, String>>();
+		Set<Entry<String, String>> entrySet = CkDmBean.map.entrySet();
+		Iterator it = entrySet.iterator();
+		while (it.hasNext()) {
+			Entry<String, String> entry = (Entry<String, String>) it.next();
+			Map<String, String> eMap = new HashMap<String, String>();
+			eMap.put(key, entry.getKey());
+			eMap.put(value, entry.getValue());
+			rtnList.add(eMap);
+		}
+		return rtnList;
+	}
+
+	/**
+	 * 对map判空
+	 * @param map
+	 * @return
+	 */
+	public static boolean mapIsBlank(Map<String, String> map) {
+		return map == null || map.size() == 0;
+	}
+
+	/**
+	 * 将list转换成map
+	 * @param list
+	 * @return
+	 */
+	public static Map<String, String> listToMap(List<Object[]> list) {
+		Map<String, String> map = new HashMap<String, String>();
+		if (CommonUtils.listIsNotBlank(list)) {
+			for (Object[] objs : list) {
+				map.put((String) objs[0], (String) objs[1]);
+			}
+		}
+		return map;
 	}
 	
 }
