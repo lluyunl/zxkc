@@ -46,4 +46,31 @@ public class ZxkcHprkManager {
 		return CkDmBean.instance().listSelect();
 	}
 
+	/**
+	 * 查询货品入库记录
+	 * @param model
+	 * @return
+	 */
+	public List<ZxkcYwHprkVo> listHprk(ZxkcYwHprkVo model) {
+		return dao.listHprk(model);
+	}
+
+	/**
+	 * 修改货品入库记录
+	 * @param model
+	 * @throws SQLException 
+	 */
+	public void modifyHprk(ZxkcYwHprkVo model) throws SQLException {
+		dao.updateHprk(model);
+	}
+
+	/**
+	 * 根据主键删除货品入库记录
+	 * @param ukey
+	 * @throws SQLException 
+	 */
+	public void deleteHprk(String ukey) throws SQLException {
+		dao.deleteByPk(ukey);
+	}
+
 }

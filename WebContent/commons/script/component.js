@@ -6,7 +6,7 @@ var hpbhSelectStore = new Ext.data.JsonStore({
 });
 hpbhSelectStore.load();
 var hpbhSelect = new Ext.form.ComboBox({
-    store:hpbhSelectStore, emptyText:"请选择", mode:"local", name:"hpbh", id:"hpbh", valueField:"hpbh", displayField:"hpmc", allowBlank:false
+    store:hpbhSelectStore, triggerAction:"all", name:"hpbh", id:"hpbh", fieldLabel:"货品名称", emptyText:"请选择", mode:"local", valueField:"hpbh", displayField:"hpmc"
 }); 	
 
 //仓库下拉单
@@ -17,5 +17,5 @@ var ckSelectStore = new Ext.data.JsonStore({
 });
 ckSelectStore.load();
 var ckSelect = new Ext.form.ComboBox({
-        store:ckSelectStore, emptyText:"请选择", mode:"local", name:"ck", id:"ck", valueField:"ck", displayField:"ckmc", allowBlank:false
+        store:ckSelectStore, triggerAction:"all", emptyText:"请选择", mode:"local", fieldLabel:"仓库", name:"ck", id:"ck", valueField:"ck", displayField:"ckmc"
 });

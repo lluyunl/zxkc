@@ -149,6 +149,7 @@
 		gridStore.load();
 		
 		var hpxxGrid = new Ext.grid.GridPanel({
+			title:"货品信息维护",
 			renderTo: 'hpxxList',
 			ds: gridStore,
 			loadMask: true,

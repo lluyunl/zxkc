@@ -8,13 +8,14 @@ import javax.xml.crypto.URIDereferencer;
 import com.mrding.common.web.ActionSupport;
 import com.mrding.zxkc.model.ZxkcYwHprk;
 import com.mrding.zxkc.server.jhlr.ZxkcHprkManager;
+import com.mrding.zxkc.vo.jhlr.ZxkcYwHprkVo;
 
 /**
  * 货品入库
  * @author mrding
  *
  */
-public class ZxkcHprkAction extends ActionSupport<ZxkcYwHprk, ZxkcHprkManager> {
+public class ZxkcHprkAction extends ActionSupport<ZxkcYwHprkVo, ZxkcHprkManager> {
     
     public String list() {
         return "list";
@@ -50,6 +51,46 @@ public class ZxkcHprkAction extends ActionSupport<ZxkcYwHprk, ZxkcHprkManager> {
     public String funcRkwh() {
     	return "rkwh";
     }
-
+    
+    /**
+     * 查询货品入库记录
+     * @return
+     */
+    public String loadHprkList() {
+    	jsonMap.put("hprkList", manager.listHprk(model));
+    	return SUCCESS;
+    }
+    
+    /**
+     * 修改货品入库记录
+     * @return
+     */
+    public String modifyHprk() {
+    	try {
+    		//不知怎么回事shr没有设到model
+    		model.setShr(request.getParameter("shr"));
+    		manager.modifyHprk(model);
+    		jsonMap.put("success", true);
+    	} catch(Exception e) {
+    		e.printStackTrace();
+    		jsonMap.put("success", false);
+    	}
+    	return SUCCESS;
+    }
+    
+    /**
+     * 删除货品入库记录
+     * @return
+     */
+    public String deleteHprk() {
+    	try {
+            manager.deleteHprk(model.getUkey());
+            jsonMap.put("success", true);
+    	} catch(Exception e) {
+    		e.printStackTrace();
+            jsonMap.put("success", false);
+    	}
+    	return SUCCESS;
+    }
 
 }

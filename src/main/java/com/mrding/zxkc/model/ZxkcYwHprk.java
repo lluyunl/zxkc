@@ -1,5 +1,7 @@
 package com.mrding.zxkc.model;
 
+import java.math.BigDecimal;
+import java.sql.Date;
 import java.sql.Timestamp;
 
 /**
@@ -15,14 +17,27 @@ public class ZxkcYwHprk {
     private String ghsmc;
     private String shr;
     private String shrdh;
-    private int hpsl;
+    private BigDecimal hpsl;
     private String rkr;
-    private Timestamp rksj;
+    private Date rksj;
     private String bz;
     private int dr;
     private Timestamp ts;
+    private String ck;
 
-    public String getUkey() {
+    public String getShr() {
+		return shr;
+	}
+	public void setShr(String shr) {
+		this.shr = shr;
+	}
+	public String getCk() {
+		return ck;
+	}
+	public void setCk(String ck) {
+		this.ck = ck;
+	}
+	public String getUkey() {
         return ukey;
     }
     public void setUkey(String ukey) {
@@ -46,40 +61,34 @@ public class ZxkcYwHprk {
     public void setGhsmc(String ghsmc) {
         this.ghsmc = ghsmc;
     }
-    public String getShr() {
-        return shr;
-    }
-    public void setShr(String shr) {
-        this.shr = shr;
-    }
     public String getShrdh() {
         return shrdh;
     }
     public void setShrdh(String shrdh) {
         this.shrdh = shrdh;
     }
-    public int getHpsl() {
-        return hpsl;
-    }
-    public void setHpsl(int hpsl) {
-        this.hpsl = hpsl;
-    }
     public String getRkr() {
         return rkr;
     }
-    public void setRkr(String rkr) {
+    public BigDecimal getHpsl() {
+		return hpsl;
+	}
+	public void setHpsl(BigDecimal hpsl) {
+		this.hpsl = hpsl;
+	}
+	public void setRkr(String rkr) {
         this.rkr = rkr;
-    }
-    public Timestamp getRksj() {
-        return rksj;
-    }
-    public void setRksj(Timestamp rksj) {
-        this.rksj = rksj;
     }
     public String getBz() {
         return bz;
     }
-    public void setBz(String bz) {
+    public Date getRksj() {
+		return rksj;
+	}
+	public void setRksj(Date rksj) {
+		this.rksj = rksj;
+	}
+	public void setBz(String bz) {
         this.bz = bz;
     }
     public int getDr() {
