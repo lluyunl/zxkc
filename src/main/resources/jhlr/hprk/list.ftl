@@ -33,7 +33,7 @@
 			{header:"送货人电话", dataIndex:"shrdh", editor:new Ext.form.TextField({})},
 			{header:"货品数量", dataIndex:"hpsl", editor:new Ext.form.NumberField({allowBlank:false, precision:2})},
 			{header:"单位类型", dataIndex:"dw", editor:dwSelect, renderer:Ext.util.Format.comboRenderer(dwSelect)},
-			{header:"仓库", dataIndex:"ck", editor:ckSelect, renderer:Ext.util.Format.comboRenderer(ckSelect)},
+			{header:"店面", dataIndex:"ck", editor:ckSelect, renderer:Ext.util.Format.comboRenderer(ckSelect)},
 			{header:"入库人", dataIndex:"rkr", editor:new Ext.form.TextField({allowBlank:false})},
 			{header:"入库时间", dataIndex:"rksj", sortable:true, editor:new Ext.form.DateField({allowBlank:false, format:"Y-m-d"}), renderer:new Ext.util.Format.dateRenderer('Y-m-d')},
 			{header:"备注", dataIndex:"bz", editor:new Ext.form.TextField({})}

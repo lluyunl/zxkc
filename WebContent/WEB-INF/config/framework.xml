@@ -29,6 +29,7 @@
 				<param name="root">jsonMap</param>
 			</result>
 			<result name="cklr" type="freemarker">/ck/cklr.ftl</result>
+			<result name="ckwh" type="freemarker">/ck/ckwh.ftl</result>
 		</action>
 	</package>
 	<package name="cxtj" extends="json-default" namespace="/cxtj">

@@ -17,5 +17,5 @@ var ckSelectStore = new Ext.data.JsonStore({
 });
 ckSelectStore.load();
 var ckSelect = new Ext.form.ComboBox({
-        store:ckSelectStore, triggerAction:"all", emptyText:"请选择", mode:"local", fieldLabel:"仓库", name:"ck", id:"ck", valueField:"ck", displayField:"ckmc"
+        store:ckSelectStore, triggerAction:"all", emptyText:"请选择", mode:"local", fieldLabel:"店面", name:"ck", id:"ck", valueField:"ck", displayField:"ckmc"
 });

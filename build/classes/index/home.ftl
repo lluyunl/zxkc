@@ -9,7 +9,8 @@
 </script>
 </head>
 <body>
- this is funcpage ...
+<br>
+ &nbsp;&nbsp;&nbsp;欢迎进入库存在线管理系统...
 </body>
 </html>
  

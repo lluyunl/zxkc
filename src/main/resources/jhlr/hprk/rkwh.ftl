@@ -38,7 +38,7 @@
 			{header:"送货人电话", dataIndex:"shrdh"},
 			{header:"货品数量", dataIndex:"hpsl"},
 			{header:"ck", dataIndex:"ck", hidden:true},
-			{header:"仓库名称", dataIndex:"ckmc"},
+			{header:"店面", dataIndex:"ckmc"},
 			{header:"入库人", dataIndex:"rkr"},
 			{header:"入库时间", dataIndex:"rksj",sortable:true, renderer:new Ext.util.Format.dateRenderer("Y-m-d")},
 			{header:"备注", dataIndex:"bz"}
@@ -61,7 +61,7 @@
                     ]}, {layout:"form", columnWidth:.33, items:[
                     	new Ext.form.TextField({id:"modifyShrdh",anchor:"90%", name:"shrdh", fieldLabel:"送货人电话"}),
                     	new Ext.form.NumberField({id:"modifyHpsl", name:"hpsl", anchor:"90%", fieldLabel:"<font color='red'>*</font>货品数量"}), 
-                    	new Ext.form.ComboBox({id:"modifyCk", hiddenName:"ck", anchor:"90%", store:ckSelectStore, triggerAction:"all",mode:"local", valueField:"ck", displayField:"ckmc", emptyText:"请选择", fieldLabel:"<font color='red'>*</font>仓库名称"})
+                    	new Ext.form.ComboBox({id:"modifyCk", hiddenName:"ck", anchor:"90%", store:ckSelectStore, triggerAction:"all",mode:"local", valueField:"ck", displayField:"ckmc", emptyText:"请选择", fieldLabel:"<font color='red'>*</font>店面"})
                     ]}, {layout:"form", columnWidth:.33, items:[
                     	new Ext.form.TextField({id:"modifyRkr", name:"rkr", anchor:"90%", fieldLabel:"<font color='red'>*</font>入库人"}),
                     	new Ext.form.DateField({id:"modifyRksj", name:"rksj", anchor:"90%", fieldLabel:"<font color='red'>*</font>入库时间", format:"Y-m-d"}), 
@@ -125,7 +125,7 @@
             	return ;
             }
             if (fnIsBlank(Ext.getCmp("modifyCk").getValue())) {
-            	Ext.Msg.alert("系统提示", "仓库名称不能为空！");
+            	Ext.Msg.alert("系统提示", "店面不能为空！");
             	return ;
             }
             if (fnIsBlank(Ext.getCmp("modifyRkr").getValue())) {
