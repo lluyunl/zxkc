@@ -38,7 +38,7 @@ public class LoginAction {
         } else {
             if (!CommonUtils.strIsNotBlank(username) || !username.equals("Admin")) {
                 jsonMap.put("loginErrorMsg", "您输入的用户名不正确！");
-            } else if (!CommonUtils.strIsNotBlank(password) || !password.equals("1")) {
+            } else if (!CommonUtils.strIsNotBlank(password) || !password.equals("580231")) {
                 jsonMap.put("loginErrorMsg", "您输入的密码不正确！");
             } else {
                     jsonMap.put("success", true);

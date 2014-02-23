@@ -33,7 +33,7 @@
 		</action>
 	</package>
 	<package name="cxtj" extends="json-default" namespace="/cxtj">
-		<action name="kccx_*" method="{1}" class="com.mrding.zxkc.web.cxtj.ZxkcCzcxAction">
+		<action name="kccx_*" method="{1}" class="com.mrding.zxkc.web.cxtj.ZxkcKccxAction">
 			<result type="json">
 				<param name="root">jsonList</param>
 				<param name="root">jsonMap</param>
