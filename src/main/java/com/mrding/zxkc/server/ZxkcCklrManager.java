@@ -1,10 +1,10 @@
-package com.mrding.zxkc.manager;
+package com.mrding.zxkc.server;
 
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.List;
 
-import com.mrding.zxkc.dao.ck.ZxkcCklrDao;
+import com.mrding.zxkc.dao.ZxkcCklrDao;
 import com.mrding.zxkc.vo.ZxkcCklrVo;
 
 import net.sf.json.JSONArray;

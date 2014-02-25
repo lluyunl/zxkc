@@ -1,4 +1,4 @@
-package com.mrding.zxkc.dao.jhlr;
+package com.mrding.zxkc.dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -12,7 +12,7 @@ import com.mrding.common.CommonUtils;
 import com.mrding.common.dao.DSFactory;
 import com.mrding.common.dao.DaoUtils;
 import com.mrding.zxkc.model.ZxkcYwHpxx;
-import com.mrding.zxkc.vo.jhlr.ZxkcHplrVo.ZxkcHplrVo;
+import com.mrding.zxkc.vo.ZxkcHplrVo;
 
 public class ZxkcHplrDao {
 

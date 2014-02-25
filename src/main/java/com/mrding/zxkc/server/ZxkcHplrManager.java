@@ -1,12 +1,12 @@
-package com.mrding.zxkc.server.jhlr;
+package com.mrding.zxkc.server;
 
 import java.sql.SQLException;
 import java.util.*;
 
 import com.mrding.common.CommonUtils;
-import com.mrding.zxkc.dao.jhlr.ZxkcHplrDao;
+import com.mrding.zxkc.dao.ZxkcHplrDao;
 import com.mrding.zxkc.model.ZxkcYwHpxx;
-import com.mrding.zxkc.vo.jhlr.ZxkcHplrVo.ZxkcHplrVo;
+import com.mrding.zxkc.vo.ZxkcHplrVo;
 
 public class ZxkcHplrManager {
     

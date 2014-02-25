@@ -1,4 +1,4 @@
-package com.mrding.zxkc.vo.jhlr;
+package com.mrding.zxkc.vo;
 
 import com.mrding.zxkc.model.ZxkcYwHprk;
 

@@ -1,4 +1,4 @@
-package com.mrding.zxkc.dao.jhlr;
+package com.mrding.zxkc.dao;
 
 import java.awt.Window.Type;
 import java.math.BigDecimal;
@@ -20,7 +20,7 @@ import com.mrding.common.dao.DaoUtils;
 import com.mrding.zxkc.model.ZxkcYwHprk;
 import com.mrding.zxkc.model.ZxkcYwHpxx;
 import com.mrding.zxkc.utils.LocalUtils;
-import com.mrding.zxkc.vo.jhlr.ZxkcYwHprkVo;
+import com.mrding.zxkc.vo.ZxkcYwHprkVo;
 
 public class ZxkcHprkDao {
 
@@ -61,8 +61,8 @@ public class ZxkcHprkDao {
                 pstmt.setString(10, (String) jsonObj.get("bz"));
                 pstmt.setInt(11, 0);
                 pstmt.setTimestamp(12, new Timestamp(new java.util.Date().getTime()));
-                pstmt.setString(13, jsonObj.getString("ck"));
-                pstmt.setNull(14, Types.TIMESTAMP);
+                pstmt.setNull(13, Types.TIMESTAMP);
+                pstmt.setString(14, jsonObj.getString("ck"));
                 pstmt.addBatch();
             }
             pstmt.executeBatch();

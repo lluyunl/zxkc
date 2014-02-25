@@ -1,4 +1,4 @@
-package com.mrding.zxkc.server.jhlr;
+package com.mrding.zxkc.server;
 
 import java.sql.SQLException;
 import java.text.ParseException;
@@ -9,11 +9,11 @@ import java.util.Map;
 import net.sf.json.JSONArray;
 
 import com.mrding.common.CommonUtils;
-import com.mrding.zxkc.dao.jhlr.ZxkcHprkDao;
+import com.mrding.zxkc.dao.ZxkcHprkDao;
 import com.mrding.zxkc.dm.CkDmBean;
 import com.mrding.zxkc.model.ZxkcYwHprk;
 import com.mrding.zxkc.model.ZxkcYwHpxx;
-import com.mrding.zxkc.vo.jhlr.ZxkcYwHprkVo;
+import com.mrding.zxkc.vo.ZxkcYwHprkVo;
 
 public class ZxkcHprkManager {
 

@@ -1,4 +1,4 @@
-package com.mrding.zxkc.manager;
+package com.mrding.zxkc.server;
 
 public class ManagerFactory {
 

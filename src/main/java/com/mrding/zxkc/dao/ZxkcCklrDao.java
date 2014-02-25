@@ -1,4 +1,4 @@
-package com.mrding.zxkc.dao.ck;
+package com.mrding.zxkc.dao;
 
 import java.math.BigDecimal;
 import java.sql.*;
@@ -13,7 +13,6 @@ import java.util.UUID;
 import com.mrding.common.CommonUtils;
 import com.mrding.common.dao.DSFactory;
 import com.mrding.common.dao.DaoUtils;
-import com.mrding.zxkc.dao.jhlr.ZxkcHplrDao;
 import com.mrding.zxkc.model.ZxkcYwHpxx;
 import com.mrding.zxkc.vo.ZxkcCklrVo;
 

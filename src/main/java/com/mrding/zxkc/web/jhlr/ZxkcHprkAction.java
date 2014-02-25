@@ -7,8 +7,8 @@ import javax.xml.crypto.URIDereferencer;
 
 import com.mrding.common.web.ActionSupport;
 import com.mrding.zxkc.model.ZxkcYwHprk;
-import com.mrding.zxkc.server.jhlr.ZxkcHprkManager;
-import com.mrding.zxkc.vo.jhlr.ZxkcYwHprkVo;
+import com.mrding.zxkc.server.ZxkcHprkManager;
+import com.mrding.zxkc.vo.ZxkcYwHprkVo;
 
 /**
  * 货品入库
