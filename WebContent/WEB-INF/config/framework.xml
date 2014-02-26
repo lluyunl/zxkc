@@ -40,6 +40,13 @@
 			</result>
 			<result name="kccx" type="freemarker">/cxtj/kccx.ftl</result>
 		</action>
+		<action name="yxtj_*" method="{1}" class="com.mrding.zxkc.web.cxtj.ZxkcYxtjAction">
+			<result type="json">
+				<param name="root">jsonList</param>
+				<param name="root">jsonMap</param>
+			</result>
+			<result name="yxtj" type="freemarker">/cxtj/yxtj.ftl</result>
+		</action>
 	</package>
 
 </struts>

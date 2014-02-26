@@ -157,11 +157,13 @@
 			columns: [
 				new Ext.grid.RowNumberer(),
 				{dataIndex: 'ukey', hidden: true},
-				{header: '货品编号', dataIndex: 'hpbh', width: 100},
+				{header: '货品编号', dataIndex: 'hpbh', hidden:true, width: 100},
 				{header: '货品名称', dataIndex: 'hpmc', width: 220},
-				{header: '包装规格', dataIndex: 'bzgg', width: 100},
+				{header: '包装规格', dataIndex: 'bzgg', width: 150},
 				{header: '单位', dataIndex: 'dw', width: 80},
 				{header: '最小单位', dataIndex: 'zxdw', width: 80},
+				{header: '单位转换率', dataIndex: 'dwzhl', width: 90},
+				{header: '单价', dataIndex: 'dj', width: 80},
 				{header: '录入时间', dataIndex: 'ts', width: 300, renderer: new Ext.util.Format.dateRenderer('Y-m-d H:m:s'), sortable: true},
 			],
 			viewConfig: {

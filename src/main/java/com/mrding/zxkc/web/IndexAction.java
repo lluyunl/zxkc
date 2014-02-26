@@ -71,7 +71,7 @@ public class IndexAction implements ModelDriven<IndexVo> {
 		rtnList.add(TreeNode.createLeaf("货品出库维护", "ckwh", "/ck/cklr_funcCkwh.shtml"));
 	    } else if (id.equals("cxtj")) {
 		rtnList.add(TreeNode.createLeaf("库存查询", "kccx", "/cxtj/kccx_list.shtml"));
-		rtnList.add(TreeNode.createLeaf("销售统计", "xstj", "/xstj_list.shtml"));
+		rtnList.add(TreeNode.createLeaf("销售统计", "xstj", "/cxtj/yxtj_list.shtml"));
 		rtnList.add(TreeNode.createLeaf("库存提醒", "kctx", "/kctx_list.shtml"));
 	    }
 	} 
