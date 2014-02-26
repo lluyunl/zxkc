@@ -1,5 +1,6 @@
 package com.mrding.zxkc.dao;
 
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -44,6 +45,8 @@ public class ZxkcHplrDao {
 	bean.setLrr((String) objs[8]);
 	bean.setXgr((String) objs[9]);
 	bean.setXgsj((Timestamp) objs[10]);
+	bean.setDwzhl((BigDecimal) objs[11]);
+	bean.setDj((BigDecimal) objs[12]);
 	return bean;
     }
 

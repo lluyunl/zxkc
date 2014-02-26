@@ -1,6 +1,7 @@
 //判空
 function fnIsBlank(sValue) {
-	return sValue == undefined || sValue == null || fnTrim(sValue) == "";
+	var value_str = sValue.toString();
+	return value_str == undefined || value_str == null || fnTrim(value_str) == "";
 };
 
 function fnTrim(sValue) {
