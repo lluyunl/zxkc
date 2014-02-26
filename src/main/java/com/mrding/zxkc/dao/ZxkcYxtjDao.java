@@ -26,9 +26,7 @@ public class ZxkcYxtjDao {
 		return DaoUtils.queryBySql("select bb.HPMC," +
 				createYxtjSqlHead(model.getDmList()) +
                 " from (" +
-                " select HPBH,RKSJ as sj,HPSL as sl,ck as CK from zxkc_yw_hprk where DR=0  " +
-                " union all" +
-                " select HPBH,CKSJ as sj,HPSL * (-1) as sl,CK from zxkc_yw_hpck where DR=0" +
+                " select HPBH,CKSJ as sj,HPSL as sl,CK from zxkc_yw_hpck where DR=0" +
                 " ) aa " +
                 " left join zxkc_yw_hpxx bb on aa.HPBH=bb.HPBH and bb.DR=0" +
                 " where 1=1 " +
