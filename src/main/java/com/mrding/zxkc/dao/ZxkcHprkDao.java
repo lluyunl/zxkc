@@ -104,14 +104,13 @@ public class ZxkcHprkDao {
 		voBean.setHpbh((String) objs[1]);
 		voBean.setHpmc((String) objs[2]);
 		voBean.setGhsmc((String) objs[3]);
-		voBean.setShr((String) objs[4]);
-		voBean.setShrdh((String) objs[5]);
-		voBean.setHpsl((BigDecimal) objs[6]);
-		voBean.setCk((String) objs[7]);
-		voBean.setCkmc((String) objs[8]);
-		voBean.setRkr((String) objs[9]);
-		voBean.setRksj((java.sql.Date) objs[10]);
-		voBean.setBz((String) objs[11]);
+		voBean.setHpsl_zxdw((BigDecimal) objs[4]);
+		voBean.setHpsl_dw((BigDecimal) objs[5]);
+		voBean.setCk((String) objs[6]);
+		voBean.setCkmc((String) objs[7]);
+		voBean.setRkr((String) objs[8]);
+		voBean.setRksj((java.sql.Date) objs[9]);
+		voBean.setBz((String) objs[10]);
 		return voBean;
 	}
 
@@ -121,7 +120,7 @@ public class ZxkcHprkDao {
 	 * @return
 	 */
 	private String sqlListHprk(ZxkcYwHprkVo model) {
-		return "select a.UKEY,a.HPBH,a.HPMC,a.GHSMC,a.SHR,a.SHRDH,a.HPSL,c.CKDM,c.CKMC,a.RKR,a.RKSJ,a.BZ " +
+		return "select a.UKEY,a.HPBH,a.HPMC,a.GHSMC,a.HPSL as sl_zxdw, round((a.HPSL / b.DWZHL),2) as sl_dw,c.CKDM,c.CKMC,a.RKR,a.RKSJ,a.BZ" +
                 " from zxkc_yw_hprk a " +
                 " left join zxkc_yw_hpxx b on a.HPBH=b.HPBH and b.DR=0" +
                 " left join zxkc_dm_ck c on a.CK=c.CKDM and c.DR=0" +
@@ -131,7 +130,8 @@ public class ZxkcHprkDao {
                 (CommonUtils.strIsNotBlank(model.getRksjq()) ? DaoUtils.sqlGe("a.RKSJ", model.getRksjq()) : "") +
                 (CommonUtils.strIsNotBlank(model.getRksjz()) ? DaoUtils.sqlLe("a.RKSJ", model.getRksjz()) : "") + 
                 (CommonUtils.strIsNotBlank(model.getGhsmc()) ? DaoUtils.sqlLike("a.GHSMC", "%" + model.getGhsmc() + "%") : "") +
-                (CommonUtils.strIsNotBlank(model.getRkr()) ? DaoUtils.sqlLike("a.RKR", "%" + model.getRkr() + "%") : "");
+                (CommonUtils.strIsNotBlank(model.getRkr()) ? DaoUtils.sqlLike("a.RKR", "%" + model.getRkr() + "%") : "") +
+                " order by a.RKSJ";
 	}
 
 	/**
@@ -151,7 +151,7 @@ public class ZxkcHprkDao {
 			pstmt.setString(3, model.getGhsmc());
 			pstmt.setString(4, model.getShr());
 			pstmt.setString(5, model.getShrdh());
-			pstmt.setBigDecimal(6, model.getHpsl());
+			pstmt.setBigDecimal(6, countHpsl(model.getHpbh(), model.getHpsl(), model.getDwlx()));
 			pstmt.setString(7, model.getRkr());
 			pstmt.setTimestamp(8, new Timestamp(model.getRksj().getTime()));
 			pstmt.setString(9, model.getBz());
@@ -161,6 +161,16 @@ public class ZxkcHprkDao {
 			pstmt.executeUpdate();
 		} finally {
 			DaoUtils.close(conn, pstmt, null);
+		}
+	}
+
+	private BigDecimal countHpsl(String hpbh, BigDecimal hpsl, String dwlx) {
+		if (dwlx != null && dwlx.equals("dw")) {
+			//获取单位转换率
+			BigDecimal dwzhl = new ZxkcHplrDao().getDwzhl(hpbh);
+			return hpsl.multiply(dwzhl);
+		} else {
+			return hpsl;
 		}
 	}
 

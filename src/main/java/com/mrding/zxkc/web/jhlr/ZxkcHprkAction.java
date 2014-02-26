@@ -67,8 +67,6 @@ public class ZxkcHprkAction extends ActionSupport<ZxkcYwHprkVo, ZxkcHprkManager>
      */
     public String modifyHprk() {
     	try {
-    		//不知怎么回事shr没有设到model
-    		model.setShr(request.getParameter("shr"));
     		manager.modifyHprk(model);
     		jsonMap.put("success", true);
     	} catch(Exception e) {

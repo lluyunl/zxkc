@@ -36,13 +36,13 @@ public class ZxkcHplrAction extends ActionSupport<ZxkcHplrVo, ZxkcHplrManager>{
      */
     public String addHp() {
 	try {
-            manager.addHp(model);
-            jsonMap.put("success", true);
+        manager.addHp(model);
+        jsonMap.put("success", true);
 	} catch(Exception e) {
 	    e.printStackTrace();
 	    jsonMap.put("success", false);
 	}
-	return "success";
+        return "success";
     }
     
     /**

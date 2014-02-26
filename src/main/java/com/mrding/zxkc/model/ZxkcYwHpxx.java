@@ -22,7 +22,7 @@ public class ZxkcYwHpxx {
     private String xgr;
     private Timestamp xgsj;
     private BigDecimal dwzhl;
-    private BigDecimal dj;
+    private String dj;
 
     public BigDecimal getDwzhl() {
 		return dwzhl;
@@ -30,16 +30,16 @@ public class ZxkcYwHpxx {
 	public void setDwzhl(BigDecimal dwzhl) {
 		this.dwzhl = dwzhl;
 	}
-	public BigDecimal getDj() {
-		return dj;
-	}
-	public void setDj(BigDecimal dj) {
-		this.dj = dj;
-	}
 	public Timestamp getXgsj() {
         return xgsj;
     }
-    public void setXgsj(Timestamp xgsj) {
+    public String getDj() {
+		return dj;
+	}
+	public void setDj(String dj) {
+		this.dj = dj;
+	}
+	public void setXgsj(Timestamp xgsj) {
         this.xgsj = xgsj;
     }
     public String getUkey() {

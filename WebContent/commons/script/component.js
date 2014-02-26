@@ -20,3 +20,13 @@ ckSelectStore.load();
 var ckSelect = new Ext.form.ComboBox({
         store:ckSelectStore, triggerAction:"all", emptyText:"请选择", mode:"local", fieldLabel:"店面", name:"ck", id:"ck", valueField:"ck", displayField:"ckmc"
 });
+
+var dwSelectStore = new Ext.data.Store({
+    proxy:new Ext.data.MemoryProxy([["dw", "单位"], ["zxdw", "入库最小单位"]]),
+    reader:new Ext.data.ArrayReader({}, [{name: "dwlx"}, {name: "dwlxmc"}])
+});
+dwSelectStore.load();
+var dwSelect = new Ext.form.ComboBox({
+    store:dwSelectStore, id:"dwlx", hiddenName:"dwlx", triggerAction:"all", emptyText:"请选择", mode:"local", valueField:"dwlx", displayField:"dwlxmc", fieldLabel:"单位类型", allowBlank:false
+});
+

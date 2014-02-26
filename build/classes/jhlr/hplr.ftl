@@ -67,6 +67,8 @@
         Ext.getCmp("bzgg").setValue("");
         Ext.getCmp("zxdw").setValue("");
         Ext.getCmp("ukey").setValue("");
+        Ext.getCmp("dwzhl").setValue("");
+        Ext.getCmp("dj").setValue("");
 	}
 	
 	function fnCheckBlank() {
