@@ -58,7 +58,7 @@ public class ZxkcHprkDao {
                 pstmt.setBigDecimal(7, countHpsl(jsonObj.getInt("hpbh"), new BigDecimal(String.valueOf(jsonObj.get("hpsl"))), jsonObj.getString("dw")));
                 pstmt.setString(8, jsonObj.getString("rkr"));
                 pstmt.setDate(9, new java.sql.Date(format.parse(jsonObj.getString("rksj")).getTime()));
-                pstmt.setString(10, jsonObj.getString("bz"));
+                pstmt.setString(10, (String) jsonObj.get("bz"));
                 pstmt.setInt(11, 0);
                 pstmt.setTimestamp(12, new Timestamp(new java.util.Date().getTime()));
                 pstmt.setNull(13, Types.TIMESTAMP);

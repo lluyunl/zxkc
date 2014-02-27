@@ -49,7 +49,7 @@ public class ZxkcCklrDao {
                 pstmt.setString(4, jsonObj.getString("ck"));
                 pstmt.setBigDecimal(5, new ZxkcHprkDao().countHpsl(jsonObj.getInt("hpbh"), new BigDecimal(String.valueOf(jsonObj.get("hpsl"))), jsonObj.getString("dwlx")));
                 pstmt.setDate(6, new java.sql.Date(format.parse(jsonObj.getString("cksj")).getTime()));
-                pstmt.setString(7, jsonObj.getString("bz"));
+                pstmt.setString(7, (String) jsonObj.get("bz"));
                 pstmt.setInt(8, 0);
                 pstmt.setTimestamp(9, new Timestamp(new java.util.Date().getTime()));
                 pstmt.setNull(10, Types.TIMESTAMP);
