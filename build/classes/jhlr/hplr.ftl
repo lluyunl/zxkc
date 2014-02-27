@@ -88,8 +88,8 @@
 			Ext.Msg.alert("系统提示", "入库最小单位不能为空！");
 			return false;
 		}
-		if (fnIsBlank(Ext.getCmp("dwzhl").getValue())) {
-			Ext.Msg.alert("系统提示", "单位转换率不能为空！");
+		if (fnIsBlank(Ext.getCmp("dwzhl").getValue()) || Ext.getCmp("dwzhl").getValue() <= 0) {
+			Ext.Msg.alert("系统提示", "单位转换率不能为空或小于等于0的值！");
 			return false;
 		}
 		return true;
