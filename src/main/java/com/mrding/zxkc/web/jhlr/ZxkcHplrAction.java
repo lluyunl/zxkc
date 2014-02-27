@@ -23,7 +23,7 @@ public class ZxkcHplrAction extends ActionSupport<ZxkcHplrVo, ZxkcHplrManager>{
      * @return
      */
     public String listHpxx() {
-	if (CommonUtils.strIsNotBlank(model.getHpmc())) {
+	if (CommonUtils.isNotBlank(model.getHpmc())) {
 	    return queryHpxxByMc();
 	}
 	jsonMap.put("hpxxList", manager.listHpxx());
@@ -36,13 +36,13 @@ public class ZxkcHplrAction extends ActionSupport<ZxkcHplrVo, ZxkcHplrManager>{
      */
     public String addHp() {
 	try {
-            manager.addHp(model);
-            jsonMap.put("success", true);
+        manager.addHp(model);
+        jsonMap.put("success", true);
 	} catch(Exception e) {
 	    e.printStackTrace();
 	    jsonMap.put("success", false);
 	}
-	return "success";
+        return "success";
     }
     
     /**
@@ -51,8 +51,13 @@ public class ZxkcHplrAction extends ActionSupport<ZxkcHplrVo, ZxkcHplrManager>{
      */
     public String deleteHp() {
 	try {
-	    manager.deleteHp(model.getUkey());
-	    jsonMap.put("success", true);
+		if (manager.hasKc(model.getUkey())) {
+			jsonMap.put("success", false);
+			jsonMap.put("hasKc", true);
+		} else {
+            manager.deleteHp(model.getUkey());
+            jsonMap.put("success", true);
+		}
 	} catch(Exception e) {
 	    e.printStackTrace();
 	    jsonMap.put("success", false);

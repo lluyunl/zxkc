@@ -37,7 +37,7 @@ public class ZxkcKccxManager {
 		voBean.setHpmc((String) objs[1]); 
 		voBean.setBzgg((String) objs[2]); 
 		voBean.setHpsl((BigDecimal) objs[3]); 
-		voBean.setHpsl_dw((BigDecimal) objs[3]); 
+		voBean.setHpsl_dw((BigDecimal) objs[4]); 
 		return voBean;
 	}
 

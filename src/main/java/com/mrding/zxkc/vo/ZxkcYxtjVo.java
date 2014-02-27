@@ -12,7 +12,16 @@ public class ZxkcYxtjVo {
 	private String hpmc;
 	private String qsrq_str;
 	private String jzrq_str;
+	private String dwlx;
 	
+	public String getDwlx() {
+		return dwlx;
+	}
+
+	public void setDwlx(String dwlx) {
+		this.dwlx = dwlx;
+	}
+
 	public String getHpmc() {
 		return hpmc;
 	}

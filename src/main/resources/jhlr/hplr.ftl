@@ -8,70 +8,27 @@
 	Ext.onReady(function() {
 	var addForm = new Ext.form.FormPanel({
 		url: '${ctxPath}/jhlr/hplr_addHp.shtml',
-		labelAlign: 'right',
-		labelWidth: 200,
-		height: 150,
-		frame: true,
-		layout: 'form',
-		buttonAlign: 'center',
-		items: [{
-			layout: 'column',
-			border: false,
-			style: 'padding-top:5px',
-			items: [
-				{	
-					columnWidth: 0.3,
-					labelWidth: 80,
-					labelAlign: 'right',
-					layout: 'form',
-					border: false,
-					items: [
-						{
-							xtype: 'textfield',
-							name: 'hpmc',
-							id: 'hpmc',
-							fieldLabel: "<font color='red'>*</font>货品名称"
-						}, {
-							xtype: 'textfield',
-							id: 'zxdw',
-							name: 'zxdw',
-							fieldLabel: "<font color='red'>*</font>最小单位"
-						}
+		labelAlign: 'right', labelWidth: 200, height: 150, frame: true, layout: 'form', buttonAlign: 'center', items: [{
+			layout: 'column', border: false, style: 'padding-top:5px', items: [
+				{
+					columnWidth: 0.3, labelWidth: 80, labelAlign: 'right', layout: 'form', border: false, items: [
+						{ xtype: 'textfield', name: 'hpmc', id: 'hpmc', fieldLabel: "<font color='red'>*</font>货品名称" }, 
+						{ xtype: 'textfield', name: 'bzgg', id: 'bzgg', fieldLabel: "<font color='red'>*</font>包装规格" }
 					]
 				}, {	
-					columnWidth: 0.3,
-					labelWidth: 80,
-					labelAlign: 'right',
-					layout: 'form',
-					border: false,
-					items: [
-						{
-							xtype: 'textfield',
-							name: 'dw',
-							id: 'dw',
-							fieldLabel: "<font color='red'>*</font>单位"
-						}
+					columnWidth: 0.3, labelWidth: 80, labelAlign: 'right', layout: 'form', border: false, items: [
+						{ xtype: 'textfield', name: 'dw', id: 'dw', fieldLabel: "<font color='red'>*</font>单位" },
+						{ xtype: 'textfield', id: 'zxdw', name: 'zxdw', fieldLabel: "<font color='red'>*</font>入库最小单位" }
 					]
 				},{	
-					columnWidth: 0.3,
-					labelWidth: 80,
-					labelAlign: 'right',
-					layout: 'form',
-					border: false,
-					items: [
-						{
-							xtype: 'textfield',
-							name: 'bzgg',
-							id: 'bzgg',
-							fieldLabel: "<font color='red'>*</font>包装规格"
-						}
+					columnWidth: 0.3, labelWidth: 80, labelAlign: 'right', layout: 'form', border: false, items: [
+						{ xtype: 'numberfield', id: 'dwzhl', name: 'dwzhl', fieldLabel: "<font color='red'>*</font>单位转换率" },
+						{ xtype: 'textfield', id: 'dj', name: 'dj', fieldLabel: "单价" }
 					]
 				}
 			],
-			buttonAlign: 'center',
-			buttons: [
-                {
-                	text: '确定',
+			buttonAlign: 'center', buttons: [
+                { text: '确定',
                 	handler: function() {
                 		if (!fnCheckBlank()) {
                 			return ;
@@ -110,6 +67,8 @@
         Ext.getCmp("bzgg").setValue("");
         Ext.getCmp("zxdw").setValue("");
         Ext.getCmp("ukey").setValue("");
+        Ext.getCmp("dwzhl").setValue("");
+        Ext.getCmp("dj").setValue("");
 	}
 	
 	function fnCheckBlank() {
@@ -117,16 +76,20 @@
 			Ext.Msg.alert("系统提示", "货品名称不能为空！");
 			return false;
 		}
-		if (fnIsBlank(Ext.getCmp("dw").getValue())) {
-			Ext.Msg.alert("系统提示", "单位不能为空！");
-			return false;
-		}
 		if (fnIsBlank(Ext.getCmp("bzgg").getValue())) {
 			Ext.Msg.alert("系统提示", "包装规格不能为空！");
 			return false;
 		}
+		if (fnIsBlank(Ext.getCmp("dw").getValue())) {
+			Ext.Msg.alert("系统提示", "单位不能为空！");
+			return false;
+		}
 		if (fnIsBlank(Ext.getCmp("zxdw").getValue())) {
-			Ext.Msg.alert("系统提示", "最小单位不能为空！");
+			Ext.Msg.alert("系统提示", "入库最小单位不能为空！");
+			return false;
+		}
+		if (fnIsBlank(Ext.getCmp("dwzhl").getValue())) {
+			Ext.Msg.alert("系统提示", "单位转换率不能为空！");
 			return false;
 		}
 		return true;
@@ -144,7 +107,7 @@
 		var gridStore = new Ext.data.JsonStore({
 			url: '${ctxPath}/jhlr/hplr_listHpxx.shtml',
 			root: 'hpxxList',
-			fields: ['ukey', 'hpbh', 'hpmc', 'bzgg', 'dw', 'zxdw', 'ts']
+			fields: ['ukey', 'hpbh', 'hpmc', 'bzgg', 'dw', 'zxdw', 'dwzhl', 'dj', 'ts']
 		});
 		gridStore.load();
 		
@@ -161,7 +124,7 @@
 				{header: '货品名称', dataIndex: 'hpmc', width: 220},
 				{header: '包装规格', dataIndex: 'bzgg', width: 150},
 				{header: '单位', dataIndex: 'dw', width: 80},
-				{header: '最小单位', dataIndex: 'zxdw', width: 80},
+				{header: '入库最小单位', dataIndex: 'zxdw', width: 100},
 				{header: '单位转换率', dataIndex: 'dwzhl', width: 90},
 				{header: '单价', dataIndex: 'dj', width: 80},
 				{header: '录入时间', dataIndex: 'ts', width: 300, renderer: new Ext.util.Format.dateRenderer('Y-m-d H:m:s'), sortable: true},
@@ -195,6 +158,8 @@
 						Ext.getCmp("bzgg").setValue(hpxxBean.get("bzgg"));
 						Ext.getCmp("zxdw").setValue(hpxxBean.get("zxdw"));
 						Ext.getCmp("ukey").setValue(hpxxBean.get("ukey"));
+						Ext.getCmp("dwzhl").setValue(hpxxBean.get("dwzhl"));
+						Ext.getCmp("dj").setValue(hpxxBean.get("dj"));
 						addWindow.setTitle("修改货品");
 						addWindow.show();
 					}
@@ -219,7 +184,11 @@
 											Ext.Msg.alert("系统提示", "删除成功！");
 											hpxxGrid.getStore().load();
 										} else {
-											Ext.Msg.alert("系统提示", "删除失败！");
+											if (result.hasKc) {
+												Ext.Msg.alert("系统提示", "该货品还存在库存，不能删除！");
+											} else {
+                                                Ext.Msg.alert("系统提示", "删除失败！");
+											}
 										}
 									}
 								});		
@@ -243,9 +212,6 @@
 				 			params: {hpmc: hpmc},
 				 			success: function(response) {
 				 				hpxxGrid.getStore().load({params:{hpmc:hpmc}});
-				 				//var data = Ext.decode(response.responseText);
-				 				//alert(data.hpxxList);
-				 				//hpxxGrid.getStore().loadData(data.hpxxList, false);
 				 			}
 				 		});
 				 	}

@@ -23,28 +23,33 @@ public class ZxkcYxtjDao {
 	 * @return
 	 */
 	public List<Object[]> queryYxtjList(ZxkcYxtjVo model) {
-		return DaoUtils.queryBySql("select bb.HPMC," +
-				createYxtjSqlHead(model.getDmList()) +
-                " from (" +
-                " select HPBH,CKSJ as sj,HPSL as sl,CK from zxkc_yw_hpck where DR=0" +
-                " ) aa " +
-                " left join zxkc_yw_hpxx bb on aa.HPBH=bb.HPBH and bb.DR=0" +
-                " where 1=1 " +
-                (model.getHpbh() != null && !String.valueOf(model.getHpbh()).equals("") ? DaoUtils.sqlEq("aa.HPBH", model.getHpbh()) : "") +
-                (CommonUtils.strIsNotBlank(model.getQsrq_str()) ? DaoUtils.sqlGe("aa.sj", model.getQsrq_str()) : "") +
-                (CommonUtils.strIsNotBlank(model.getJzrq_str()) ? DaoUtils.sqlLe("aa.sj", model.getJzrq_str()) : "") +
-                " group by bb.HPMC", 
-				DSFactory.CURRENT);
+		return DaoUtils.queryBySql("select b.HPMC, " +
+				createYxtjSqlHead(model.getDmList(), model.getDwlx()) +
+                " from zxkc_yw_hpck a" +
+                " left join zxkc_yw_hpxx b on a.HPBH=b.HPBH and b.DR=0 " +
+                " where a.DR=0 and a.CKYY='xs'" +
+                (model.getHpbh() != null && !String.valueOf(model.getHpbh()).equals("") ? DaoUtils.sqlEq("a.HPBH", model.getHpbh()) : "") +
+                (CommonUtils.isNotBlank(model.getQsrq_str()) ? DaoUtils.sqlGe("a.CKSJ", model.getQsrq_str()) : "") +
+                (CommonUtils.isNotBlank(model.getJzrq_str()) ? DaoUtils.sqlLe("a.CKSJ", model.getJzrq_str()) : "") +
+                " group by b.HPMC", DSFactory.CURRENT);
 	}
 
-	private String createYxtjSqlHead(List<Object[]> dmList) {
+	private String createYxtjSqlHead(List<Object[]> dmList, String dwlx) {
 		StringBuilder head = new StringBuilder("");
 		if (CommonUtils.listIsNotBlank(dmList)) {
 			for (Object[] objs : dmList) {
-				head.append(" sum(case when CK='" + (String) objs[0] + "' then sl else 0 end) as '" + (String) objs[1] + "',");
+				head.append(" sum(case when a.CK='" + (String) objs[0] + "' then " + fitHpsl(dwlx) + " else 0 end) as '" + (String) objs[1] + "',");
 			}
 		}
 		return head.substring(0, head.length() - 1);
+	}
+
+	private String fitHpsl(String dwlx) {
+		if (dwlx != null && dwlx.equals("dw")) {
+			return " round(a.HPSL / b.DWZHL,2)";
+		} else {
+			return " a.HPSL";
+		}
 	}
 
 }

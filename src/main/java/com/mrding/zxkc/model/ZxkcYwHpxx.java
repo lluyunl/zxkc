@@ -1,5 +1,6 @@
 package com.mrding.zxkc.model;
 
+import java.math.BigDecimal;
 import java.sql.*;
 
 /**
@@ -20,11 +21,25 @@ public class ZxkcYwHpxx {
     private String lrr;
     private String xgr;
     private Timestamp xgsj;
+    private BigDecimal dwzhl;
+    private String dj;
 
-    public Timestamp getXgsj() {
+    public BigDecimal getDwzhl() {
+		return dwzhl;
+	}
+	public void setDwzhl(BigDecimal dwzhl) {
+		this.dwzhl = dwzhl;
+	}
+	public Timestamp getXgsj() {
         return xgsj;
     }
-    public void setXgsj(Timestamp xgsj) {
+    public String getDj() {
+		return dj;
+	}
+	public void setDj(String dj) {
+		this.dj = dj;
+	}
+	public void setXgsj(Timestamp xgsj) {
         this.xgsj = xgsj;
     }
     public String getUkey() {

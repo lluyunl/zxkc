@@ -12,8 +12,7 @@
 			renderTo:"queryForm", width:1000, autoHeight:true, frame:false, border:false, labelWidth:80, labelAlign:"right", buttonAlign:"center", items:[
 				{layout:"column", anchor:"100%,100%", title:"查询条件", xtype:"fieldset", checkboxToggle:true, items:[
 					{layout:"form", border:false, columnWidth:.33, items:[
-						new Ext.form.ComboBox({store:hpbhSelectStore, triggerAction:"all", name:"hpbh", id:"hpbh", fieldLabel:"货品名称", emptyText:"请选择", 
-                        mode:"local", multiSelect:true, valueField:"hpbh", displayField:"hpmc"})
+						hpbhSelect
     				]},
 					{layout:"form", border:false, columnWidth:.33, items:ckSelect},
 					{layout:"form", border:false, columnWidth:.33, items:[new Ext.form.DateField({id:"jzrq", name:"jzrq_str", fieldLabel:"截止日期", width:200, format:"Y-m-d"})]}
@@ -29,11 +28,12 @@
 		}
 		
 		var kclistGridCm = new Ext.grid.ColumnModel([
+			new Ext.grid.RowNumberer(),
 			{header:"hpbh", dataIndex:"hpbh", hidden:true},
-			{header:"货品名称", dataIndex:"hpmc", width:100},
-			{header:"包装规格", dataIndex:"bzgg", width:80},
-			{header:"数量(单位)", dataIndex:"hpsl_dw", width: 80, sortable:true},
-			{header:"数量(最小单位)", dataIndex:"hpsl", width:100, sortable:true}
+			{header:"货品名称", dataIndex:"hpmc", width:150},
+			{header:"包装规格", dataIndex:"bzgg", width:100},
+			{header:"数量(单位)", dataIndex:"hpsl_dw", sortable:true},
+			{header:"数量(入库最小单位)", dataIndex:"hpsl", sortable:true}
         ]);
 		
 		var kclistGridDs = new Ext.data.JsonStore({

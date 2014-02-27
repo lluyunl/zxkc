@@ -1,5 +1,6 @@
 package com.mrding.zxkc.dao;
 
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -44,14 +45,16 @@ public class ZxkcHplrDao {
 	bean.setLrr((String) objs[8]);
 	bean.setXgr((String) objs[9]);
 	bean.setXgsj((Timestamp) objs[10]);
+	bean.setDwzhl((BigDecimal) objs[11]);
+	bean.setDj((String) objs[12]);
 	return bean;
     }
 
     public void save(ZxkcYwHpxx model) throws SQLException {
-	if (CommonUtils.strIsNotBlank(model.getUkey())) {
+	if (CommonUtils.isNotBlank(model.getUkey())) {
 	    update(model);
 	} else {
-            String sql = "insert into zxkc_yw_hpxx values(?,?,?,?,?,?,?,?,?,?,?)";
+            String sql = "insert into zxkc_yw_hpxx values(?,?,?,?,?,?,?,?,?,?,?,?,?)";
             Connection conn = DSFactory.CURRENT.getConn();
             PreparedStatement pstmt = null;
             try {
@@ -67,6 +70,8 @@ public class ZxkcHplrDao {
                 pstmt.setString(9, "");
                 pstmt.setString(10, "");
                 pstmt.setTimestamp(11, new Timestamp(new java.util.Date().getTime()));
+                pstmt.setBigDecimal(12, model.getDwzhl());
+                pstmt.setString(13, model.getDj());
                 pstmt.executeUpdate();
             } finally {
                 DaoUtils.close(conn, pstmt, null);
@@ -80,7 +85,7 @@ public class ZxkcHplrDao {
      * @throws SQLException 
      */
     private void update(ZxkcYwHpxx model) throws SQLException {
-        String sql = "update zxkc_yw_hpxx set HPMC=?,BZGG=?,DW=?,ZXDW=?,XGSJ=? where DR=0 and UKEY='" + model.getUkey() + "'";
+        String sql = "update zxkc_yw_hpxx set HPMC=?,BZGG=?,DW=?,ZXDW=?,XGSJ=?,DWZHL=?,DJ=? where DR=0 and UKEY='" + model.getUkey() + "'";
         Connection conn = DSFactory.CURRENT.getConn();
         PreparedStatement pstmt = null;
         try {
@@ -90,6 +95,8 @@ public class ZxkcHplrDao {
             pstmt.setString(3, model.getDw());
             pstmt.setString(4, model.getZxdw());
             pstmt.setTimestamp(5, new Timestamp(new java.util.Date().getTime()));
+            pstmt.setBigDecimal(6, model.getDwzhl());
+            pstmt.setString(7, model.getDj());
             pstmt.executeUpdate();
         } finally {
             DaoUtils.close(conn, pstmt, null);
@@ -140,5 +147,33 @@ public class ZxkcHplrDao {
 	String sql = "select * from zxkc_yw_hpxx where DR=0 and " + colName + " = '" + value + "'";
 	return convertList(DaoUtils.queryBySql(sql, DSFactory.CURRENT));
     }
+
+    /**
+     * 根据货品编号获取单位转换率
+     * @param hpbh
+     * @return
+     */
+	public BigDecimal getDwzhl(Integer hpbh) {
+		String sql = "select DWZHL from zxkc_yw_hpxx where DR=0 and HPBH=" + hpbh;
+		List<Object[]> list = DaoUtils.queryBySql(sql, DSFactory.CURRENT);
+		if (CommonUtils.listIsNotBlank(list) && list.get(0) != null) {
+			return (BigDecimal) list.get(0)[0];
+		} else {
+			return null;
+		}
+	}
+
+	/**
+	 * 查询是否该货品还存在库存
+	 * @param ukey
+	 * @return
+	 */
+	public List<Object[]> queryHasKc(String ukey) {
+		return DaoUtils.queryBySql("select sum(aa.sl) from (" +
+            " select HPSL as sl from zxkc_yw_hpxx a left join zxkc_yw_hprk b on a.HPBH=b.HPBH where a.DR=0 and b.DR=0 and a.UKEY='" + ukey + "'" +
+            " union all" +
+            " select HPSL * (-1) as sl from zxkc_yw_hpxx a left join zxkc_yw_hpck b on a.HPBH=b.HPBH where a.DR=0 and b.DR=0 and a.UKEY='" + ukey + "'" +
+            " ) aa", DSFactory.CURRENT);
+	}
 
 }

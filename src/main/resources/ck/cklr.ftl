@@ -15,37 +15,28 @@
 			}
 		}
 		
-		var dwSelectStore = new Ext.data.Store({
-			proxy:new Ext.data.MemoryProxy([["dw", "单位"], ["zxdw", "最小单位"]]),
-			reader:new Ext.data.ArrayReader({}, [{name: "dwlx"}, {name: "dwlxmc"}])
-		});
-		dwSelectStore.load();
-		
-		var dwSelect = new Ext.form.ComboBox({
-			store:dwSelectStore, emptyText:"请选择", mode:"local", valueField:"dwlx", displayField:"dwlxmc", allowBlank:false
-		});
-
-		
 		var ckyyComboStore = new Ext.data.Store({
 			proxy:new Ext.data.MemoryProxy([["xs", "销售"], ["sh", "损坏"], ["ds", "丢失"], ["other", "其他"]]),
 			reader:new Ext.data.ArrayReader({}, [{name: "ckyy"}, {name: "ckyymc"}])
 		});
 		ckyyComboStore.load();
+
 		var ckyyCombo = new Ext.form.ComboBox({
 			store:ckyyComboStore, emptyText:"请选择", mode:"local", valueField:"ckyy", displayField:"ckyymc", triggerAction:"all", allowBlank:false
 		});
 		
 		var hpckCm = new Ext.grid.ColumnModel([
-			{header:"货品名称", dataIndex:"hpbh", width:70, editor:hpbhSelect, renderer:Ext.util.Format.comboRenderer(hpbhSelect)},
+			{header:"货品名称", dataIndex:"hpbh", width:150, editor:hpbhSelect, renderer:Ext.util.Format.comboRenderer(hpbhSelect)},
 			{header:"出库原因", dataIndex:"ckyy", editor:ckyyCombo, renderer:Ext.util.Format.comboRenderer(ckyyCombo)},
 			{header:"出库店面", dataIndex:"ck", editor:ckSelect, renderer:Ext.util.Format.comboRenderer(ckSelect)},
+			{header:"单位类型", dataIndex:"dwlx", editor:dwSelect, renderer:Ext.util.Format.comboRenderer(dwSelect)},
 			{header:"货品数量", dataIndex:"hpsl", editor:new Ext.form.NumberField({allowBlank:false, precision:2})},
 			{header:"出库时间", dataIndex:"cksj", sortable:true, editor:new Ext.form.DateField({allowBlank:false, format:"Y-m-d"}), renderer:new Ext.util.Format.dateRenderer('Y-m-d')},
 			{header:"出库人", dataIndex:"ckr", editor:new Ext.form.TextField({allowBlank:false})},
 			{header:"备注", dataIndex:"bz", editor:new Ext.form.TextField({})}
 		]);
 		
-		var colArray = [{name:"hpbh"}, {name:"ckyy"}, {name:"ck"}, {name:"hpsl"}, {name:"cksj"}, {name:"ckr"}, {name:"bz"}];
+		var colArray = [{name:"hpbh"}, {name:"ckyy"}, {name:"ck"}, {name:"dwlx"}, {name:"hpsl"}, {name:"cksj"}, {name:"ckr"}, {name:"bz"}];
 		
 		var HpckRecord = Ext.data.Record.create(colArray);
 		
@@ -62,7 +53,7 @@
             tbar:new Ext.Toolbar(["-", {
                 text:"添加一行", 
                 handler:function(){
-                	var row = new HpckRecord({ hpbh:"", ckyy:"", ck:"", hpsl:"", cksj:"", ckr:"", bz:""});
+                	var row = new HpckRecord({ hpbh:"", ckyy:"", ck:"", dwlx:"", hpsl:"", cksj:"", ckr:"", bz:""});
                 	hpckList.stopEditing();
                 	hpckList.getStore().insert(0, row);
                 	hpckList.startEditing(0, 0);
@@ -130,6 +121,10 @@
         	}
         	if (fnIsBlank(record.get("ck"))) {
         		Ext.Msg.alert("系统提示", "出库店面不能为空！");
+        		return ;
+        	}
+        	if (fnIsBlank(record.get("dwlx"))) {
+        		Ext.Msg.alert("系统提示", "单位类型不能为空！");
         		return ;
         	}
         	if (fnIsBlank(record.get("hpsl").toString())) {

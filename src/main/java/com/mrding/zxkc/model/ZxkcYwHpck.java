@@ -7,7 +7,7 @@ import java.sql.Timestamp;
 public class ZxkcYwHpck {
 	
 	private String ukey;
-	private String hpbh;
+	private Integer hpbh;
 	private String ckyy;
 	private String ck;
 	private BigDecimal hpsl;
@@ -24,14 +24,14 @@ public class ZxkcYwHpck {
 	public void setUkey(String ukey) {
 		this.ukey = ukey;
 	}
-	public String getHpbh() {
-		return hpbh;
-	}
-	public void setHpbh(String hpbh) {
-		this.hpbh = hpbh;
-	}
 	public String getCkyy() {
 		return ckyy;
+	}
+	public Integer getHpbh() {
+		return hpbh;
+	}
+	public void setHpbh(Integer hpbh) {
+		this.hpbh = hpbh;
 	}
 	public void setCkyy(String ckyy) {
 		this.ckyy = ckyy;

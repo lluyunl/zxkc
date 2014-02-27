@@ -52,13 +52,13 @@ public class ZxkcHprkDao {
                 pstmt.setString(1, UUID.randomUUID().toString().replace("-", ""));
                 pstmt.setInt(2, (int) jsonObj.get("hpbh"));
                 pstmt.setString(3, hplrBean.getHpmc());
-                pstmt.setString(4, (String) jsonObj.get("ghsmc"));
-                pstmt.setString(5, (String) jsonObj.get("shr"));
-                pstmt.setString(6, (String) jsonObj.get("shrdh"));
-                pstmt.setBigDecimal(7, new BigDecimal(String.valueOf(jsonObj.get("hpsl"))));
-                pstmt.setString(8, (String) jsonObj.get("rkr"));
-                pstmt.setDate(9, new java.sql.Date(format.parse((String) jsonObj.get("rksj")).getTime()));
-                pstmt.setString(10, (String) jsonObj.get("bz"));
+                pstmt.setString(4, jsonObj.getString("ghsmc"));
+                pstmt.setString(5, "");
+                pstmt.setString(6, "");
+                pstmt.setBigDecimal(7, countHpsl(jsonObj.getInt("hpbh"), new BigDecimal(String.valueOf(jsonObj.get("hpsl"))), jsonObj.getString("dw")));
+                pstmt.setString(8, jsonObj.getString("rkr"));
+                pstmt.setDate(9, new java.sql.Date(format.parse(jsonObj.getString("rksj")).getTime()));
+                pstmt.setString(10, jsonObj.getString("bz"));
                 pstmt.setInt(11, 0);
                 pstmt.setTimestamp(12, new Timestamp(new java.util.Date().getTime()));
                 pstmt.setNull(13, Types.TIMESTAMP);
@@ -101,17 +101,16 @@ public class ZxkcHprkDao {
 	private ZxkcYwHprkVo convertToVo(Object[] objs) {
 		ZxkcYwHprkVo voBean = new ZxkcYwHprkVo();
 		voBean.setUkey((String) objs[0]);
-		voBean.setHpbh((String) objs[1]);
+		voBean.setHpbh((Integer) objs[1]);
 		voBean.setHpmc((String) objs[2]);
 		voBean.setGhsmc((String) objs[3]);
-		voBean.setShr((String) objs[4]);
-		voBean.setShrdh((String) objs[5]);
-		voBean.setHpsl((BigDecimal) objs[6]);
-		voBean.setCk((String) objs[7]);
-		voBean.setCkmc((String) objs[8]);
-		voBean.setRkr((String) objs[9]);
-		voBean.setRksj((java.sql.Date) objs[10]);
-		voBean.setBz((String) objs[11]);
+		voBean.setHpsl_zxdw((BigDecimal) objs[4]);
+		voBean.setHpsl_dw((BigDecimal) objs[5]);
+		voBean.setCk((String) objs[6]);
+		voBean.setCkmc((String) objs[7]);
+		voBean.setRkr((String) objs[8]);
+		voBean.setRksj((java.sql.Date) objs[9]);
+		voBean.setBz((String) objs[10]);
 		return voBean;
 	}
 
@@ -121,17 +120,18 @@ public class ZxkcHprkDao {
 	 * @return
 	 */
 	private String sqlListHprk(ZxkcYwHprkVo model) {
-		return "select a.UKEY,a.HPBH,a.HPMC,a.GHSMC,a.SHR,a.SHRDH,a.HPSL,c.CKDM,c.CKMC,a.RKR,a.RKSJ,a.BZ " +
+		return "select a.UKEY,a.HPBH,a.HPMC,a.GHSMC,a.HPSL as sl_zxdw, round((a.HPSL / b.DWZHL),2) as sl_dw,c.CKDM,c.CKMC,a.RKR,a.RKSJ,a.BZ" +
                 " from zxkc_yw_hprk a " +
                 " left join zxkc_yw_hpxx b on a.HPBH=b.HPBH and b.DR=0" +
                 " left join zxkc_dm_ck c on a.CK=c.CKDM and c.DR=0" +
                 " where a.DR=0" + 
-                (CommonUtils.strIsNotBlank(model.getHpbh()) ? DaoUtils.sqlEq("a.HPBH", model.getHpbh()) : "") +
-                (CommonUtils.strIsNotBlank(model.getCk()) ? DaoUtils.sqlEq("a.CK", model.getCk()) : "") +
-                (CommonUtils.strIsNotBlank(model.getRksjq()) ? DaoUtils.sqlGe("a.RKSJ", model.getRksjq()) : "") +
-                (CommonUtils.strIsNotBlank(model.getRksjz()) ? DaoUtils.sqlLe("a.RKSJ", model.getRksjz()) : "") + 
-                (CommonUtils.strIsNotBlank(model.getGhsmc()) ? DaoUtils.sqlLike("a.GHSMC", "%" + model.getGhsmc() + "%") : "") +
-                (CommonUtils.strIsNotBlank(model.getRkr()) ? DaoUtils.sqlLike("a.RKR", "%" + model.getRkr() + "%") : "");
+                (CommonUtils.isNotBlank(model.getHpbh()) ? DaoUtils.sqlEq("a.HPBH", model.getHpbh()) : "") +
+                (CommonUtils.isNotBlank(model.getCk()) ? DaoUtils.sqlEq("a.CK", model.getCk()) : "") +
+                (CommonUtils.isNotBlank(model.getRksjq()) ? DaoUtils.sqlGe("a.RKSJ", model.getRksjq()) : "") +
+                (CommonUtils.isNotBlank(model.getRksjz()) ? DaoUtils.sqlLe("a.RKSJ", model.getRksjz()) : "") + 
+                (CommonUtils.isNotBlank(model.getGhsmc()) ? DaoUtils.sqlLike("a.GHSMC", "%" + model.getGhsmc() + "%") : "") +
+                (CommonUtils.isNotBlank(model.getRkr()) ? DaoUtils.sqlLike("a.RKR", "%" + model.getRkr() + "%") : "") +
+                " order by a.RKSJ";
 	}
 
 	/**
@@ -146,12 +146,12 @@ public class ZxkcHprkDao {
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 		try {
             pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, model.getHpbh());
+			pstmt.setInt(1, model.getHpbh());
 			pstmt.setString(2, LocalUtils.getHpmc(model.getHpbh()));
 			pstmt.setString(3, model.getGhsmc());
 			pstmt.setString(4, model.getShr());
 			pstmt.setString(5, model.getShrdh());
-			pstmt.setBigDecimal(6, model.getHpsl());
+			pstmt.setBigDecimal(6, countHpsl(model.getHpbh(), model.getHpsl(), model.getDwlx()));
 			pstmt.setString(7, model.getRkr());
 			pstmt.setTimestamp(8, new Timestamp(model.getRksj().getTime()));
 			pstmt.setString(9, model.getBz());
@@ -161,6 +161,16 @@ public class ZxkcHprkDao {
 			pstmt.executeUpdate();
 		} finally {
 			DaoUtils.close(conn, pstmt, null);
+		}
+	}
+
+	public BigDecimal countHpsl(Integer hpbh, BigDecimal hpsl, String dwlx) {
+		if (dwlx != null && dwlx.equals("dw")) {
+			//获取单位转换率
+			BigDecimal dwzhl = new ZxkcHplrDao().getDwzhl(hpbh);
+			return hpsl.multiply(dwzhl);
+		} else {
+			return hpsl;
 		}
 	}
 

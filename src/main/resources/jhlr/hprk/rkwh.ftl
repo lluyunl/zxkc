@@ -30,13 +30,13 @@
         }
 
 		var hprkCm = new Ext.grid.ColumnModel([
+			new Ext.grid.RowNumberer(),
 			{header:"ukey", dataIndex:"ukey", hidden:true},
 			{header:"货品编号", dataIndex:"hpbh", hidden:true},
-			{header:"货品名称", dataIndex:"hpmc", width:70},
+			{header:"货品名称", dataIndex:"hpmc", width:150},
 			{header:"供货商名称", dataIndex:"ghsmc", width:150},
-			{header:"送货人", dataIndex:"shr", width:50},
-			{header:"送货人电话", dataIndex:"shrdh"},
-			{header:"货品数量", dataIndex:"hpsl"},
+			{header:"货品数量(入库最小单位)", dataIndex:"hpsl_zxdw", width:150},
+			{header:"货品数量(单位)", dataIndex:"hpsl_dw"},
 			{header:"ck", dataIndex:"ck", hidden:true},
 			{header:"店面", dataIndex:"ckmc"},
 			{header:"入库人", dataIndex:"rkr"},
@@ -47,7 +47,7 @@
 		var hprkStore = new Ext.data.JsonStore({
 			url:"${ctxPath}/jhlr/hprk_loadHprkList.shtml",
 			root:"hprkList",
-			fields:["ukey", "hpbh", "hpmc", "ghsmc", "shr", "shrdh", "hpsl", "ck", "ckmc", "rkr", "rksj", "bz"]
+			fields:["ukey", "hpbh", "hpmc", "ghsmc", "hpsl_zxdw", "hpsl_dw", "ck", "ckmc", "rkr", "rksj", "bz"]
 		});
 
         var modifyForm = new Ext.form.FormPanel({
@@ -57,14 +57,13 @@
                     	new Ext.form.Hidden({id:"modifyUkey", name:"ukey"}),
                     	new Ext.form.ComboBox({store:hpbhSelectStore, anchor:"90%", triggerAction:"all",id:"modifyHpbh", hiddenName:"hpbh", fieldLabel:"<font color='red'>*</font>货品名称", emptyText:"请选择", mode:"local", valueField:"hpbh", displayField:"hpmc"}),
                     	new Ext.form.TextField({id:"modifyGhsmc", name:"ghsmc", anchor:"90%", fieldLabel:"<font color='red'>*</font>供货商名称"}), 
-                    	new Ext.form.TextField({id:"modifyShr", name:"shr", anchor:"90%", fieldLabel:"<font color='red'>*</font>送货人"})
+                        new Ext.form.ComboBox({store:dwSelectStore, id:"modifyDwlx", hiddenName:"dwlx", triggerAction:"all", emptyText:"请选择", mode:"local", valueField:"dwlx", displayField:"dwlxmc", fieldLabel:"<font color='red'>*</font>单位类型", anchor:"90%"})
                     ]}, {layout:"form", columnWidth:.33, items:[
-                    	new Ext.form.TextField({id:"modifyShrdh",anchor:"90%", name:"shrdh", fieldLabel:"送货人电话"}),
-                    	new Ext.form.NumberField({id:"modifyHpsl", name:"hpsl", anchor:"90%", fieldLabel:"<font color='red'>*</font>货品数量"}), 
-                    	new Ext.form.ComboBox({id:"modifyCk", hiddenName:"ck", anchor:"90%", store:ckSelectStore, triggerAction:"all",mode:"local", valueField:"ck", displayField:"ckmc", emptyText:"请选择", fieldLabel:"<font color='red'>*</font>店面"})
-                    ]}, {layout:"form", columnWidth:.33, items:[
+                    	new Ext.form.NumberField({id:"modifyHpsl", name:"hpsl", anchor:"90%", fieldLabel:"<font color='red'>*</font>货品数量"}),
+                    	new Ext.form.ComboBox({id:"modifyCk", hiddenName:"ck", anchor:"90%", store:ckSelectStore, triggerAction:"all",mode:"local", valueField:"ck", displayField:"ckmc", emptyText:"请选择", fieldLabel:"<font color='red'>*</font>店面"}),
                     	new Ext.form.TextField({id:"modifyRkr", name:"rkr", anchor:"90%", fieldLabel:"<font color='red'>*</font>入库人"}),
-                    	new Ext.form.DateField({id:"modifyRksj", name:"rksj", anchor:"90%", fieldLabel:"<font color='red'>*</font>入库时间", format:"Y-m-d"}), 
+                    ]}, {layout:"form", columnWidth:.33, items:[
+                    	new Ext.form.DateField({id:"modifyRksj", name:"rksj", anchor:"90%", fieldLabel:"<font color='red'>*</font>入库时间", format:"Y-m-d"}),
                     	new Ext.form.TextField({id:"modifyBz", name:"bz", anchor:"90%", fieldLabel:"备注"})
                     ]}
                 ], buttons:[{text:"保存", handler:function() {
@@ -95,11 +94,10 @@
         });
         
         function resetModifyForm() {
-			Ext.getCmp("modifyUkey").setValue("");
+            Ext.getCmp("modifyUkey").setValue("");
             Ext.getCmp("modifyHpbh").setValue("");
             Ext.getCmp("modifyGhsmc").setValue("");
-            Ext.getCmp("modifyShr").setValue("");
-            Ext.getCmp("modifyShrdh").setValue("");
+            Ext.getCmp("modifyDwlx").setValue("");
             Ext.getCmp("modifyHpsl").setValue("");
             Ext.getCmp("modifyCk").setValue("");
             Ext.getCmp("modifyRkr").setValue("");
@@ -116,8 +114,8 @@
             	Ext.Msg.alert("系统提示", "供货商名称不能为空！");
             	return ;
             }
-            if (fnIsBlank(Ext.getCmp("modifyShr").getValue())) {
-            	Ext.Msg.alert("系统提示", "送货人不能为空！");
+            if (fnIsBlank(Ext.getCmp("modifyDwlx").getValue())) {
+            	Ext.Msg.alert("系统提示", "单位类型不能为空！");
             	return ;
             }
             if (fnIsBlank(Ext.getCmp("modifyHpsl").getValue().toString())) {
@@ -132,7 +130,7 @@
             	Ext.Msg.alert("系统提示", "入库人不能为空！");
             	return ;
             }
-            if (Ext.getCmp("modifyRksj").getValue() == null || Ext.getCmp("modifyRksj").getValue() == "") {
+            if (fnIsBlank(Ext.getCmp("modifyRksj").getValue())) {
             	Ext.Msg.alert("系统提示", "入库时间不能为空！");
             	return ;
             }
@@ -184,9 +182,8 @@
             Ext.getCmp("modifyUkey").setValue(hprkBean.get("ukey"));
             Ext.getCmp("modifyHpbh").setValue(hprkBean.get("hpbh"));
             Ext.getCmp("modifyGhsmc").setValue(hprkBean.get("ghsmc"));
-            Ext.getCmp("modifyShr").setValue(hprkBean.get("shr"));
-            Ext.getCmp("modifyShrdh").setValue(hprkBean.get("shrdh"));
-            Ext.getCmp("modifyHpsl").setValue(hprkBean.get("hpsl"));
+            Ext.getCmp("modifyDwlx").setValue("zxdw");
+            Ext.getCmp("modifyHpsl").setValue(hprkBean.get("hpsl_zxdw"));
             Ext.getCmp("modifyCk").setValue(hprkBean.get("ck"));
             Ext.getCmp("modifyRkr").setValue(hprkBean.get("rkr"));
             Ext.getCmp("modifyRksj").setValue(hprkBean.get("rksj").substring(0, 10));
