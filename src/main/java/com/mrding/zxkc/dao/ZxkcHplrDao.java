@@ -51,7 +51,7 @@ public class ZxkcHplrDao {
     }
 
     public void save(ZxkcYwHpxx model) throws SQLException {
-	if (CommonUtils.strIsNotBlank(model.getUkey())) {
+	if (CommonUtils.isNotBlank(model.getUkey())) {
 	    update(model);
 	} else {
             String sql = "insert into zxkc_yw_hpxx values(?,?,?,?,?,?,?,?,?,?,?,?,?)";
@@ -153,14 +153,27 @@ public class ZxkcHplrDao {
      * @param hpbh
      * @return
      */
-	public BigDecimal getDwzhl(String hpbh) {
-		String sql = "select DWZHL from zxkc_yw_hpxx where DR=0 and HPBH='" + hpbh + "'";
+	public BigDecimal getDwzhl(Integer hpbh) {
+		String sql = "select DWZHL from zxkc_yw_hpxx where DR=0 and HPBH=" + hpbh;
 		List<Object[]> list = DaoUtils.queryBySql(sql, DSFactory.CURRENT);
 		if (CommonUtils.listIsNotBlank(list) && list.get(0) != null) {
 			return (BigDecimal) list.get(0)[0];
 		} else {
 			return null;
 		}
+	}
+
+	/**
+	 * 查询是否该货品还存在库存
+	 * @param ukey
+	 * @return
+	 */
+	public List<Object[]> queryHasKc(String ukey) {
+		return DaoUtils.queryBySql("select sum(aa.sl) from (" +
+            " select HPSL as sl from zxkc_yw_hpxx a left join zxkc_yw_hprk b on a.HPBH=b.HPBH where a.DR=0 and b.DR=0 and a.UKEY='" + ukey + "'" +
+            " union all" +
+            " select HPSL * (-1) as sl from zxkc_yw_hpxx a left join zxkc_yw_hpck b on a.HPBH=b.HPBH where a.DR=0 and b.DR=0 and a.UKEY='" + ukey + "'" +
+            " ) aa", DSFactory.CURRENT);
 	}
 
 }

@@ -17,8 +17,8 @@ public class CommonUtils {
 	 * @param username
 	 * @return
 	 */
-	public static boolean strIsNotBlank(String str) {
-		return str != null && !str.equals("");
+	public static boolean isNotBlank(Object obj) {
+		return obj != null && !obj.equals("");
 	}
 	
 	/**

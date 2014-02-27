@@ -14,8 +14,8 @@ public class LocalUtils {
 	 * @param hpbh
 	 * @return
 	 */
-	public static String getHpmc(String hpbh) {
-		String sql = "select HPMC from zxkc_yw_hpxx where DR=0 and HPBH='" + hpbh + "'";
+	public static String getHpmc(Integer hpbh) {
+		String sql = "select HPMC from zxkc_yw_hpxx where DR=0 and HPBH=" + hpbh;
 		List<Object[]> list = DaoUtils.queryBySql(sql, DSFactory.CURRENT);
 		if (CommonUtils.listIsNotBlank(list) && list.get(0) != null) {
 			return (String) list.get(0)[0];

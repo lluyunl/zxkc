@@ -44,16 +44,16 @@ public class ZxkcCklrDao {
                 //查询出货品信息，用于设值
                 ZxkcYwHpxx hplrBean = hplrDao.queryByCol("HPBH", jsonObj.get("hpbh")).get(0);
                 pstmt.setString(1, UUID.randomUUID().toString().replace("-", ""));
-                pstmt.setInt(2, (int) jsonObj.get("hpbh"));
-                pstmt.setString(3, (String) jsonObj.get("ckyy"));
-                pstmt.setString(4, (String) jsonObj.get("ck"));
-                pstmt.setBigDecimal(5, new BigDecimal(String.valueOf(jsonObj.get("hpsl"))));
-                pstmt.setDate(6, new java.sql.Date(format.parse((String) jsonObj.get("cksj")).getTime()));
-                pstmt.setString(7, (String) jsonObj.get("bz"));
+                pstmt.setInt(2, jsonObj.getInt("hpbh"));
+                pstmt.setString(3, jsonObj.getString("ckyy"));
+                pstmt.setString(4, jsonObj.getString("ck"));
+                pstmt.setBigDecimal(5, new ZxkcHprkDao().countHpsl(jsonObj.getInt("hpbh"), new BigDecimal(String.valueOf(jsonObj.get("hpsl"))), jsonObj.getString("dwlx")));
+                pstmt.setDate(6, new java.sql.Date(format.parse(jsonObj.getString("cksj")).getTime()));
+                pstmt.setString(7, jsonObj.getString("bz"));
                 pstmt.setInt(8, 0);
                 pstmt.setTimestamp(9, new Timestamp(new java.util.Date().getTime()));
                 pstmt.setNull(10, Types.TIMESTAMP);
-                pstmt.setString(11, (String) jsonObj.get("ckr"));
+                pstmt.setString(11, jsonObj.getString("ckr"));
                 pstmt.addBatch();
             }
             pstmt.executeBatch();
@@ -82,16 +82,17 @@ public class ZxkcCklrDao {
 	private ZxkcCklrVo convertToVo(Object[] objs) {
 		ZxkcCklrVo voBean = new ZxkcCklrVo();
 		voBean.setUkey((String) objs[0]);
-		voBean.setHpbh((String) objs[1]);
+		voBean.setHpbh((Integer) objs[1]);
 		voBean.setHpmc((String) objs[2]);
 		voBean.setCkyy((String) objs[3]);
 		voBean.setCkyymc(getCkyy((String) objs[3]));
 		voBean.setCk((String) objs[4]);
 		voBean.setCkmc((String) objs[5]);
-		voBean.setHpsl((BigDecimal) objs[6]);
-		voBean.setCksj((java.sql.Date) objs[7]);
-		voBean.setCkr((String) objs[8]);
-		voBean.setBz((String) objs[9]);
+		voBean.setHpsl_zxdw((BigDecimal) objs[6]);
+		voBean.setHpsl_dw((BigDecimal) objs[7]);
+		voBean.setCksj((java.sql.Date) objs[8]);
+		voBean.setCkr((String) objs[9]);
+		voBean.setBz((String) objs[10]);
 		return voBean;
 	}
 
@@ -100,15 +101,15 @@ public class ZxkcCklrDao {
 	}
 
 	private String sqlListHpck(ZxkcCklrVo model) {
-        return "SELECT a.UKEY,a.HPBH,b.HPMC,a.CKYY,c.CKDM,c.CKMC,a.HPSL,a.CKSJ,a.CKR,a.BZ FROM zxkc_yw_hpck a " +
+        return "SELECT a.UKEY,a.HPBH,b.HPMC,a.CKYY,c.CKDM,c.CKMC,a.HPSL as sl_zxdw, round(a.HPSL / b.DWZHL, 2) as sl_dw,a.CKSJ,a.CKR,a.BZ FROM zxkc_yw_hpck a " +
                 " left join zxkc_yw_hpxx b on a.HPBH=b.HPBH and b.DR=0" +
                 " left join zxkc_dm_ck c on a.CK=c.CKDM and c.DR=0" +
                 " where a.DR=0" + 
-                (CommonUtils.strIsNotBlank(model.getHpbh()) ? DaoUtils.sqlEq("a.HPBH", model.getHpbh()) : "") +
-                (CommonUtils.strIsNotBlank(model.getCk()) ? DaoUtils.sqlEq("a.CK", model.getCk()) : "") +
-                (CommonUtils.strIsNotBlank(model.getCksjq()) ? DaoUtils.sqlGe("a.CKSJ", model.getCksjq()) : "") +
-                (CommonUtils.strIsNotBlank(model.getCksjz()) ? DaoUtils.sqlLe("a.CKSJ", model.getCksjz()) : "") + 
-                (CommonUtils.strIsNotBlank(model.getCkr()) ? DaoUtils.sqlLike("a.CKR", "%" + model.getCkr() + "%") : "");
+                (CommonUtils.isNotBlank(model.getHpbh()) ? DaoUtils.sqlEq("a.HPBH", model.getHpbh()) : "") +
+                (CommonUtils.isNotBlank(model.getCk()) ? DaoUtils.sqlEq("a.CK", model.getCk()) : "") +
+                (CommonUtils.isNotBlank(model.getCksjq()) ? DaoUtils.sqlGe("a.CKSJ", model.getCksjq()) : "") +
+                (CommonUtils.isNotBlank(model.getCksjz()) ? DaoUtils.sqlLe("a.CKSJ", model.getCksjz()) : "") + 
+                (CommonUtils.isNotBlank(model.getCkr()) ? DaoUtils.sqlLike("a.CKR", "%" + model.getCkr() + "%") : "");
 	}
 
 	public void updateHpck(ZxkcCklrVo model) throws SQLException {
@@ -118,10 +119,10 @@ public class ZxkcCklrDao {
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 		try {
             pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, model.getHpbh());
+			pstmt.setInt(1, model.getHpbh());
 			pstmt.setString(2, model.getCkyy());
 			pstmt.setString(3, model.getCk());
-			pstmt.setBigDecimal(4, model.getHpsl());
+			pstmt.setBigDecimal(4, new ZxkcHprkDao().countHpsl(model.getHpbh(), model.getHpsl(), model.getDwlx()));
 			pstmt.setTimestamp(5, new Timestamp(model.getCksj().getTime()));
 			pstmt.setString(6, model.getBz());
 			pstmt.setString(7, model.getCkr());

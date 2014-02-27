@@ -23,7 +23,7 @@
 				},{	
 					columnWidth: 0.3, labelWidth: 80, labelAlign: 'right', layout: 'form', border: false, items: [
 						{ xtype: 'numberfield', id: 'dwzhl', name: 'dwzhl', fieldLabel: "<font color='red'>*</font>单位转换率" },
-						{ xtype: 'numberfield', id: 'dj', name: 'dj', fieldLabel: "单价" }
+						{ xtype: 'textfield', id: 'dj', name: 'dj', fieldLabel: "单价" }
 					]
 				}
 			],
@@ -184,7 +184,11 @@
 											Ext.Msg.alert("系统提示", "删除成功！");
 											hpxxGrid.getStore().load();
 										} else {
-											Ext.Msg.alert("系统提示", "删除失败！");
+											if (result.hasKc) {
+												Ext.Msg.alert("系统提示", "该货品还存在库存，不能删除！");
+											} else {
+                                                Ext.Msg.alert("系统提示", "删除失败！");
+											}
 										}
 									}
 								});		

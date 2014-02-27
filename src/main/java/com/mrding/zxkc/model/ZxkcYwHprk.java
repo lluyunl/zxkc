@@ -12,7 +12,7 @@ import java.sql.Timestamp;
 public class ZxkcYwHprk {
     
     private String ukey;
-    private String hpbh;
+    private Integer hpbh;
     private String hpmc;
     private String ghsmc;
     private String shr;
@@ -43,16 +43,16 @@ public class ZxkcYwHprk {
     public void setUkey(String ukey) {
         this.ukey = ukey;
     }
-    public String getHpbh() {
-        return hpbh;
-    }
-    public void setHpbh(String hpbh) {
-        this.hpbh = hpbh;
-    }
     public String getHpmc() {
         return hpmc;
     }
-    public void setHpmc(String hpmc) {
+    public Integer getHpbh() {
+		return hpbh;
+	}
+	public void setHpbh(Integer hpbh) {
+		this.hpbh = hpbh;
+	}
+	public void setHpmc(String hpmc) {
         this.hpmc = hpmc;
     }
     public String getGhsmc() {
