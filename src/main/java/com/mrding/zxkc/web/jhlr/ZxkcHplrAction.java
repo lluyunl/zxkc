@@ -6,9 +6,9 @@ import javax.servlet.ServletContext;
 
 import com.mrding.common.CommonUtils;
 import com.mrding.common.web.ActionSupport;
-import com.mrding.zxkc.manager.ManagerFactory;
-import com.mrding.zxkc.server.jhlr.ZxkcHplrManager;
-import com.mrding.zxkc.vo.jhlr.ZxkcHplrVo.ZxkcHplrVo;
+import com.mrding.zxkc.server.ManagerFactory;
+import com.mrding.zxkc.server.ZxkcHplrManager;
+import com.mrding.zxkc.vo.ZxkcHplrVo;
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ModelDriven;
 
@@ -23,7 +23,7 @@ public class ZxkcHplrAction extends ActionSupport<ZxkcHplrVo, ZxkcHplrManager>{
      * @return
      */
     public String listHpxx() {
-	if (CommonUtils.strIsNotBlank(model.getHpmc())) {
+	if (CommonUtils.isNotBlank(model.getHpmc())) {
 	    return queryHpxxByMc();
 	}
 	jsonMap.put("hpxxList", manager.listHpxx());
@@ -36,13 +36,13 @@ public class ZxkcHplrAction extends ActionSupport<ZxkcHplrVo, ZxkcHplrManager>{
      */
     public String addHp() {
 	try {
-            manager.addHp(model);
-            jsonMap.put("success", true);
+        manager.addHp(model);
+        jsonMap.put("success", true);
 	} catch(Exception e) {
 	    e.printStackTrace();
 	    jsonMap.put("success", false);
 	}
-	return "success";
+        return "success";
     }
     
     /**
@@ -51,8 +51,13 @@ public class ZxkcHplrAction extends ActionSupport<ZxkcHplrVo, ZxkcHplrManager>{
      */
     public String deleteHp() {
 	try {
-	    manager.deleteHp(model.getUkey());
-	    jsonMap.put("success", true);
+		if (manager.hasKc(model.getUkey())) {
+			jsonMap.put("success", false);
+			jsonMap.put("hasKc", true);
+		} else {
+            manager.deleteHp(model.getUkey());
+            jsonMap.put("success", true);
+		}
 	} catch(Exception e) {
 	    e.printStackTrace();
 	    jsonMap.put("success", false);

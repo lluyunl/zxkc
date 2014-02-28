@@ -1,12 +1,13 @@
-package com.mrding.zxkc.server.jhlr;
+package com.mrding.zxkc.server;
 
+import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.util.*;
 
 import com.mrding.common.CommonUtils;
-import com.mrding.zxkc.dao.jhlr.ZxkcHplrDao;
+import com.mrding.zxkc.dao.ZxkcHplrDao;
 import com.mrding.zxkc.model.ZxkcYwHpxx;
-import com.mrding.zxkc.vo.jhlr.ZxkcHplrVo.ZxkcHplrVo;
+import com.mrding.zxkc.vo.ZxkcHplrVo;
 
 public class ZxkcHplrManager {
     
@@ -44,11 +45,25 @@ public class ZxkcHplrManager {
      * @return
      */
     public List<ZxkcYwHpxx> queryHpxxByMc(String hpmc) {
-	if (CommonUtils.strIsNotBlank(hpmc)) {
+	if (CommonUtils.isNotBlank(hpmc)) {
             return dao.queryHpxxByMc(hpmc);
 	} else {
 	    return dao.listHpxx();
 	}
     }
+
+    /**
+     * 判断改货品是否还存在库存
+     * @param ukey
+     * @return
+     */
+	public boolean hasKc(String ukey) {
+		List<Object[]> list = dao.queryHasKc(ukey);
+		try {
+            return ((BigDecimal) list.get(0)[0]).doubleValue() > 0.0;
+		} catch(Exception nullPointException) {
+			return false;
+		}
+	}
 
 }

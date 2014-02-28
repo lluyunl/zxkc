@@ -19,6 +19,7 @@
 				<param name="root">jsonMap</param>
 			</result>
 			<result name="list" type="freemarker">/jhlr/hprk/list.ftl</result>
+			<result name="rkwh" type="freemarker">/jhlr/hprk/rkwh.ftl</result>
 		</action>
 	</package>
 	<package name="ck" extends="json-default" namespace="/ck">
@@ -28,15 +29,23 @@
 				<param name="root">jsonMap</param>
 			</result>
 			<result name="cklr" type="freemarker">/ck/cklr.ftl</result>
+			<result name="ckwh" type="freemarker">/ck/ckwh.ftl</result>
 		</action>
 	</package>
 	<package name="cxtj" extends="json-default" namespace="/cxtj">
-		<action name="kccx_*" method="{1}" class="com.mrding.zxkc.web.cxtj.ZxkcCzcxAction">
+		<action name="kccx_*" method="{1}" class="com.mrding.zxkc.web.cxtj.ZxkcKccxAction">
 			<result type="json">
 				<param name="root">jsonList</param>
 				<param name="root">jsonMap</param>
 			</result>
 			<result name="kccx" type="freemarker">/cxtj/kccx.ftl</result>
+		</action>
+		<action name="yxtj_*" method="{1}" class="com.mrding.zxkc.web.cxtj.ZxkcYxtjAction">
+			<result type="json">
+				<param name="root">jsonList</param>
+				<param name="root">jsonMap</param>
+			</result>
+			<result name="yxtj" type="freemarker">/cxtj/yxtj.ftl</result>
 		</action>
 	</package>
 

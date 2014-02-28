@@ -33,12 +33,12 @@ public class LoginAction {
     public String execute() {
         String username = getUsername();
         String password = getPassword();
-        if (!CommonUtils.strIsNotBlank(username) && !CommonUtils.strIsNotBlank(password)) {
+        if (!CommonUtils.isNotBlank(username) && !CommonUtils.isNotBlank(password)) {
             return "login";
         } else {
-            if (!CommonUtils.strIsNotBlank(username) || !username.equals("Admin")) {
+            if (!CommonUtils.isNotBlank(username) || !username.equals("Admin")) {
                 jsonMap.put("loginErrorMsg", "您输入的用户名不正确！");
-            } else if (!CommonUtils.strIsNotBlank(password) || !password.equals("1")) {
+            } else if (!CommonUtils.isNotBlank(password) || !password.equals("580231")) {
                 jsonMap.put("loginErrorMsg", "您输入的密码不正确！");
             } else {
                     jsonMap.put("success", true);
